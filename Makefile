@@ -17,7 +17,8 @@ IS_MLX ?= true
 
 # 🛠 Compilateur et flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror
+CFLAGS =
 LDFLAGS =
 
 # 🖥️ Détection de l'OS

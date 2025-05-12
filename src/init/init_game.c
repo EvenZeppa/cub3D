@@ -8,6 +8,8 @@ int	init_game(t_app *app, char *map_path)
 	app->win = mlx_new_window(app->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!app->win)
 		exit_error(app, "init win");
+	// if (parse_file(app, map_path))
+		// exit_error(app, "parsing");
 	if (init_map(app, map_path))
 		exit_error(app, "init map");
 	if (init_textures(app))
