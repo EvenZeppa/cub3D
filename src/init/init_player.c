@@ -5,6 +5,10 @@ int	init_player(t_app *app)
 	int	x;
 	int	y;
 
+	app->player.plane_x = 0;
+	app->player.plane_y = 0.66;
+	app->player.move_speed = 1;
+	app->player.rotate_speed = 0.1;
 	x = 0;
 	while (app->file_data.map[x] != 0)
 	{

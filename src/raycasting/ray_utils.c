@@ -1,4 +1,4 @@
-#include "cub3d.h"
+// #include "cub3d.h"
 
 int perform_dda(t_app *app, double ray_dir_x, double ray_dir_y, double *hit_x, double *hit_y)
 {
