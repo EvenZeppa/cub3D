@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-int	check_surroundings(char **map, int row, int col, int rows, int cols)
+static int	check_surroundings(char **map, int row, int col, int rows, int cols)
 {
 	// Coordonnées autour
 	const int dx[] = {-1, 1, 0, 0};

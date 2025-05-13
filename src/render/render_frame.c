@@ -3,7 +3,7 @@
 void	clear_frame(t_app *app);
 void	draw_background(t_app *app);
 
-void	render_frame(t_app *app)
+int	render_frame(t_app *app)
 {
 	// int	x;
 	// clear_frame(app);
@@ -17,4 +17,5 @@ void	render_frame(t_app *app)
 	mlx_clear_window(app->mlx, app->win);
 	if (draw_minimap(app))
 		exit_error(app, "draw minimap");
+	return (0);
 }

@@ -11,8 +11,8 @@ int	init_player(t_app *app)
 		y = 0;
 		while (app->file_data.map[x][y] != 0)
 		{
-			app->player.x = x + 0.5;
-			app->player.y = y + 0.5;
+			app->player.x = y + 0.5;
+			app->player.y = x + 0.5;
 			if (app->file_data.map[x][y] == 'N')
 				return (app->player.dir_x = 1, app->player.dir_y = 0, 0);
 			if (app->file_data.map[x][y] == 'S')

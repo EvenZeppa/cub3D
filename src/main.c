@@ -3,7 +3,7 @@
 // Callback pour render_frame (appelé à chaque itération de la loop)
 int	loop_hook(t_app *app)
 {
-	// render_frame(app);
+	render_frame(app);
 	return (0);
 }
 

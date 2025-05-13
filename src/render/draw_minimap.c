@@ -1,23 +1,26 @@
 #include "cub3d.h"
 
-static int	draw_cell(t_app *app, int x, int y, int fill_color)
+static int	draw_cell(t_app *app, int x, int y, int fill_color, double tile)
 {
-	int	px;
-	int	py;
-	int	color;
-	int	i;
-	int	j;
+	int px;
+	int py;
+	int i;
+	int j;
+	int color;
 
-	px = x * MINIMAP_TILE;
-	py = y * MINIMAP_TILE;
+	if ((int)tile < 1)
+		return (1); // sécurité : tile trop petit, on ne dessine pas
+
+	px = x * tile;
+	py = y * tile;
 	i = 0;
-	while (i < MINIMAP_TILE)
+	while (i < (int)tile)
 	{
 		j = 0;
-		while (j < MINIMAP_TILE)
+		while (j < (int)tile)
 		{
-			if (i == 0 || j == 0 || i == MINIMAP_TILE - 1 || j == MINIMAP_TILE - 1)
-				color = 0x444444; // bordure
+			if (i == 0 || j == 0 || i == (int)tile - 1 || j == (int)tile - 1)
+				color = 0x444444;
 			else
 				color = fill_color;
 			if (mlx_pixel_put(app->mlx, app->win, px + i, py + j, color) < 0)
@@ -29,20 +32,24 @@ static int	draw_cell(t_app *app, int x, int y, int fill_color)
 	return (0);
 }
 
-static int	draw_player(t_app *app)
+static int	draw_player(t_app *app, double tile)
 {
-	int	px;
-	int	py;
+	int	px = app->player.x * tile;
+	int	py = app->player.y * tile;
+	int	size;
 	int	i;
 	int	j;
 
-	px = app->player.x * MINIMAP_TILE;
-	py = app->player.y * MINIMAP_TILE;
-	i = -2;
-	while (i <= 2)
+	// Taille du joueur affiché : entre 2 et tile/4 max
+	size = tile / 4;
+	if (size < 2)
+		size = 2;
+
+	i = -size;
+	while (i <= size)
 	{
-		j = -2;
-		while (j <= 2)
+		j = -size;
+		while (j <= size)
 		{
 			if (mlx_pixel_put(app->mlx, app->win, px + i, py + j, 0xFFFF00) < 0)
 				return (1);
@@ -53,29 +60,31 @@ static int	draw_player(t_app *app)
 	return (0);
 }
 
-int	draw_minimap(t_app *app)
+int draw_minimap(t_app *app)
 {
-	int	fill_color;
-	int	y;
-	int	x;
+	int x, y, fill_color;
+	int map_w = get_map_width(app->file_data.map);
+	int map_h = get_map_height(app->file_data.map);
+	int max_dim = map_w > map_h ? map_w : map_h;
+	double tile = (double)MINIMAP_SIZE / (double)max_dim;
 
-	y = 0;
-	while (y < MAP_HEIGHT)
+	y = -1;
+	while (app->file_data.map[++y])
 	{
-		x = 0;
-		while (x < MAP_WIDTH)
+		x = -1;
+		while (app->file_data.map[y][++x])
 		{
-			if (app->file_data.map[y][x] == 1)
+			if (app->file_data.map[y][x] == ' ')
+				continue;
+			if (app->file_data.map[y][x] == '1')
 				fill_color = 0x888888;
 			else
 				fill_color = 0x000000;
-			if (draw_cell(app, x, y, fill_color))
+			if (draw_cell(app, x, y, fill_color, tile))
 				return (1);
-			x++;
 		}
-		y++;
 	}
-	if (draw_player(app))
+	if (draw_player(app, tile))
 		return (1);
 	return (0);
 }

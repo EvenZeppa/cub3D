@@ -17,6 +17,7 @@ static int	load_texture(t_app *app, t_texture *tex, char *path)
 
 int	init_textures(t_app *app)
 {
+	printf("%s\n",app->file_data.texture_north);
 	if (load_texture(app, &app->texture[0], app->file_data.texture_north))
 		exit_error(app, "load tex north");
 	if (load_texture(app, &app->texture[1], app->file_data.texture_south))
