@@ -8,6 +8,6 @@ int	free_game(t_app *app);
 int	get_map_width(char **map);
 int	get_map_height(char **map);
 double get_player_angle(t_app *app);
-
+double get_minimap_tile_size(t_app *app);
 
 #endif
