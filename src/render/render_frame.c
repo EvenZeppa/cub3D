@@ -29,7 +29,7 @@ int	render_frame(t_app *app)
 	if (draw_minimap(app))
 		return (1);
 
-	if (cast_ray(app)) // envoie un seul rayon dans la direction du joueur
+	if (cast_all_rays(app)) // envoie un seul rayon dans la direction du joueur
 		return (1);
 	mlx_put_image_to_window(app->mlx, app->win, app->img, 0, 0);
 

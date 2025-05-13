@@ -77,8 +77,5 @@ int	perform_dda(t_app *app, double ray_dir_x, double ray_dir_y, double *hit_x,
 	// calcul du point d'impact exact
 	*hit_x = pos_x + perp_dist * ray_dir_x;
 	*hit_y = pos_y + perp_dist * ray_dir_y;
-	// debug
-	printf("Hit wall at map (%d,%d), world (%.3f,%.3f), side=%d\n", map_x,
-		map_y, *hit_x, *hit_y, side);
 	return (0);
 }

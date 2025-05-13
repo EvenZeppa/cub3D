@@ -35,7 +35,9 @@
 # endif
 
 // Player
-#define COLLISION_MARGIN 0.1
-
+# define COLLISION_MARGIN 0.1
+# define M_PI 3.14159265358979323846
+# define FOV (60 * (M_PI / 180.0))
+# define NUM_RAYS 320
 
 #endif
