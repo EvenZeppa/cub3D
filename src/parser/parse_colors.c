@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-t_rgb parse_rgb(char *line)
+static t_rgb	parse_rgb(char *line)
 {
 	t_rgb	rgb;
 	char	**split;

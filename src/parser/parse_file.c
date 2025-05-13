@@ -3,7 +3,7 @@
 /* Stocke les valeurs du fichier dans app->file_data.file_data.
 	Retourne une erreur si probleme lors de l'ouverture du fichier
 	ou de la lecture */
-int	prepare_file_data(t_app *app, const char *filename)
+static int	prepare_file_data(t_app *app, const char *filename)
 {
 	int		fd;
 	char	*line;
@@ -40,7 +40,7 @@ int	prepare_file_data(t_app *app, const char *filename)
 	return (0);
 }
 
-void free_file_data(t_app *app)
+static void free_file_data(t_app *app)
 {
 	int	i;
 

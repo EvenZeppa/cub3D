@@ -1,5 +1,6 @@
 #include "cub3d.h"
-int	is_map_line(const char *line)
+
+static int	is_map_line(const char *line)
 {
 	while (*line)
 	{
