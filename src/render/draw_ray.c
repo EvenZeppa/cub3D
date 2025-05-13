@@ -6,7 +6,11 @@ int draw_ray(t_app *app, double x0, double y0, double x1, double y1, int color)
 	double y = y0;
 	double dx = x1 - x0;
 	double dy = y1 - y0;
-	int max = fabs(dx) > fabs(dy) ? fabs(dx) : fabs(dy);
+	int max;
+	if (fabs(dx) > fabs(dy))
+		max = fabs(dx);
+	else
+		max = fabs(dy);
 	int i = 0;
 
 	if (max == 0)
