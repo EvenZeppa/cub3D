@@ -27,6 +27,7 @@ typedef struct s_texture
 typedef struct s_file_data
 {
 	char		**file_data;
+	int			lines_count;
 	void		*texture_north;
 	void		*texture_south;
 	void		*texture_east;
@@ -34,7 +35,6 @@ typedef struct s_file_data
 	t_rgb		ceiling;
 	t_rgb		floor;
 	char		**map;
-
 }				t_file_data;
 
 typedef struct s_app
