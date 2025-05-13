@@ -34,4 +34,8 @@
 #  define KEY_RIGHT 124
 # endif
 
+// Player
+#define COLLISION_MARGIN 0.1
+
+
 #endif

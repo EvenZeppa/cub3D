@@ -14,8 +14,6 @@ typedef struct s_player
 	double		y;
 	double		dir_x;
 	double		dir_y;
-	double		plane_x;
-	double		plane_y;
 	double		move_speed;
 	double		rotate_speed;
 }				t_player;
@@ -26,6 +24,7 @@ typedef struct s_texture
 	int			*pixels;
 	int			width;
 	int			height;
+	int			bpp;
 }				t_texture;
 
 typedef struct s_file_data
@@ -48,6 +47,11 @@ typedef struct s_app
 	t_texture	texture[4];
 	void		*mlx;
 	void		*win;
+	void		*img;
+	char		*addr;
+	int			bpp;
+	int			line_length;
+	int			endian;
 }				t_app;
 
 #endif
