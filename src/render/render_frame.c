@@ -14,7 +14,7 @@ int	render_frame(t_app *app)
 	// 	cast_ray(app, x, WIN_HEIGHT / 2);
 	// }
 	// // mlx_put_image_to_window(app->mlx, app->win, app->img_ptr, 0, 0);
-	mlx_clear_window(app->mlx, app->win);
+	// mlx_clear_window(app->mlx, app->win);
 	if (draw_minimap(app))
 		exit_error(app, "draw minimap");
 	return (0);

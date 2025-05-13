@@ -1,7 +1,7 @@
-NO /Users/dev/Documents/Workspace/C/cub3D/assets/textures/eagle.xpm
-SO /Users/dev/Documents/Workspace/C/cub3D/assets/textures/greystone.xpm
-WE /Users/dev/Documents/Workspace/C/cub3D/assets/textures/purplestone.xpm
-EA /Users/dev/Documents/Workspace/C/cub3D/assets/textures/red.xpm
+NO ./assets/textures/eagle.xpm
+SO ./assets/textures/greystone.xpm
+WE ./assets/textures/purplestone.xpm
+EA ./assets/textures/red.xpm
 
 F 220,100,0
 C 225,30,0
