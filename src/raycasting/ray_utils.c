@@ -58,11 +58,9 @@ int	perform_dda(t_app *app, double ray_dir_x, double ray_dir_y, double *hit_x,
 			|| map_y >= get_map_height(app->file_data.map))
 			return (1);
 		if (app->file_data.map[map_y][map_x] == '1')
-		{
-			// printf("Hit wall at (%d, %d)\n", map_x, map_y);
 			break ;
-		}
 	}
+
 	// --- après la boucle, calcul de la distance perpendiculaire :
 	if (side == 0)
 	{
