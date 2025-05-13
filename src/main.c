@@ -3,7 +3,8 @@
 // Callback pour render_frame (appelé à chaque itération de la loop)
 int	loop_hook(t_app *app)
 {
-	render_frame(app);
+	if (render_frame(app))
+		exit_error(app, "render frame");
 	return (0);
 }
 
@@ -12,8 +13,6 @@ int	launch_game(t_app *app)
 {
 	// Hook pour les entrées clavier (appui)
 	mlx_hook(app->win, 2, 1L << 0, key_press, app);
-	// // Hook pour les entrées clavier (relâchement)
-	// mlx_hook(app->win, 3, 1L << 1, key_release, app);
 	// Hook pour la fermeture de la fenêtre (croix rouge)
 	mlx_hook(app->win, 17, 0L, free_game, app);
 	// Hook pour le rendu à chaque frame

@@ -23,7 +23,7 @@ static int	draw_cell(t_app *app, int x, int y, int fill_color, double tile)
 				color = 0x444444;
 			else
 				color = fill_color;
-			if (mlx_pixel_put(app->mlx, app->win, px + i, py + j, color) < 0)
+			if (my_mlx_pixel_put(app, px + i, py + j, color) < 0)
 				return (1);
 			j++;
 		}
@@ -51,7 +51,7 @@ static int	draw_player(t_app *app, double tile)
 		j = -size;
 		while (j <= size)
 		{
-			if (mlx_pixel_put(app->mlx, app->win, px + i, py + j, 0xFFFF00) < 0)
+			if (my_mlx_pixel_put(app, px + i, py + j, 0xFFFF00) < 0)
 				return (1);
 			j++;
 		}
@@ -69,10 +69,10 @@ int draw_minimap(t_app *app)
 	double tile = (double)MINIMAP_SIZE / (double)max_dim;
 
 	y = -1;
-	while (app->file_data.map[++y])
+	while (++y >= 0 && app->file_data.map[y])
 	{
 		x = -1;
-		while (app->file_data.map[y][++x])
+		while (++x >= 0 && app->file_data.map[y][x])
 		{
 			if (app->file_data.map[y][x] == ' ')
 				continue;
@@ -86,5 +86,6 @@ int draw_minimap(t_app *app)
 	}
 	if (draw_player(app, tile))
 		return (1);
+
 	return (0);
 }

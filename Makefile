@@ -16,7 +16,7 @@ IS_LIBFT ?= true
 IS_MLX ?= true
 
 # 🛠 Compilateur et flags
-CC = gcc
+CC = gcc -g
 # CFLAGS = -Wall -Wextra -Werror
 CFLAGS =
 LDFLAGS =

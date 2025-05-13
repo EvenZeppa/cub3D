@@ -39,3 +39,16 @@ double get_minimap_tile_size(t_app *app)
 	int max = (w > h) ? w : h;
 	return ((double)MINIMAP_SIZE / (double)max);
 }
+
+int my_mlx_pixel_put(t_app *app, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+	{
+		dst = app->addr + (y * app->line_length + x * (app->bpp
+					/ 8));
+		*(unsigned int *)dst = color;
+	}
+	return (0);
+}
