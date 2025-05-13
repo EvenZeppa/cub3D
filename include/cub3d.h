@@ -4,9 +4,14 @@
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <string.h>
+# include <ctype.h>
 
 # include "libft.h"
 # include "mlx.h"
+# include "get_next_line.h"
 
 # include "define.h"
 # include "struct.h"
