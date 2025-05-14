@@ -1,16 +1,16 @@
 #include "cub3d.h"
 
+/* Fonction pour liberer les donnees sur la heap */
 int	free_game(t_app *app)
 {
 	int	i;
 
-	// Libération des textures
-	for (i = 0; i < 4; i++)
+	i = 0;
+	while (i < 4)
 	{
 		if (app->texture[i].img)
 			mlx_destroy_image(app->mlx, app->texture[i].img);
 	}
-	// Destruction de la fenêtre
 	if (app->win)
 		mlx_destroy_window(app->mlx, app->win);
 	if (app->mlx)

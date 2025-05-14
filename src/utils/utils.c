@@ -1,12 +1,17 @@
 #include "cub3d.h"
 
+/* Recupere la largeur d'une map donnee */
 int	get_map_width(char **map)
 {
-	int max = 0;
-	int i = 0;
+	int	max;
+	int	i;
+	int	len;
+
+	max = 0;
+	i = 0;
 	while (map[i])
 	{
-		int len = ft_strlen(map[i]);
+		len = ft_strlen(map[i]);
 		if (len > max)
 			max = len;
 		i++;
@@ -14,14 +19,18 @@ int	get_map_width(char **map)
 	return (max);
 }
 
+/* Recupere la hauteur d'une map donnee */
 int	get_map_height(char **map)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
 	while (map[i])
 		i++;
 	return (i);
 }
 
+/* Renvoie l'angle du joueur en fonction de sa direction en x et y */
 double get_player_angle(t_app *app)
 {
 	double angle;
@@ -32,6 +41,7 @@ double get_player_angle(t_app *app)
 	return (angle);
 }
 
+/* Renvoie la taille des cellules en fonction de la map */
 double get_minimap_tile_size(t_app *app)
 {
 	int w = get_map_width(app->file_data.map);
@@ -40,6 +50,7 @@ double get_minimap_tile_size(t_app *app)
 	return ((double)MINIMAP_SIZE / (double)max);
 }
 
+/* Fonction qui remplace la fonction mlx de base pour imprimer des pixels */
 int my_mlx_pixel_put(t_app *app, int x, int y, int color)
 {
 	char	*dst;
