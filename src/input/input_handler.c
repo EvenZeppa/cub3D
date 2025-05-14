@@ -1,5 +1,6 @@
 #include "cub3d.h"
 
+/* Fonction qui gere les appuies sur le clavier (inputs) */
 int	key_press(int keycode, t_app *app)
 {
 	if (keycode == KEY_W)

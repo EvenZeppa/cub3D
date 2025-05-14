@@ -1,5 +1,6 @@
 #include "cub3d.h"
 
+/* Fonction qui va charger une texture avec mlx */
 static int	load_texture(t_app *app, t_texture *tex, char *path)
 {
 	int		size_line;
@@ -8,12 +9,14 @@ static int	load_texture(t_app *app, t_texture *tex, char *path)
 	tex->img = mlx_xpm_file_to_image(app->mlx, path, &tex->width, &tex->height);
 	if (!tex->img)
 		return (1);
-	tex->pixels = (int *)mlx_get_data_addr(tex->img, &tex->bpp, &size_line, &endian);
+	tex->pixels = (int *)mlx_get_data_addr(tex->img,
+			&tex->bpp, &size_line, &endian);
 	if (!tex->pixels)
 		return (1);
 	return (0);
 }
 
+/* Fonction globale qui va charger les textures N W E et S */
 int	init_textures(t_app *app)
 {
 	if (load_texture(app, &app->texture[0], app->file_data.texture_north))

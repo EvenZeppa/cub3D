@@ -1,25 +1,30 @@
 #include "cub3d.h"
 
-/* Stocke les valeurs du fichier dans app->file_data.file_data.
-	Retourne une erreur si probleme lors de l'ouverture du fichier
-	ou de la lecture */
-static int	prepare_file_data(t_app *app, const char *filename)
+/* Fonction qui va uniquement initialiser l'ouverture du fichier */
+static int	initialize_file_data(t_app *app, const char *filename, int *fd)
 {
-	int		fd;
-	char	*line;
-	char	**temp;
-	int		capacity = 16;
-	int		i = 0;
+	int	capacity;
 
+	capacity = 16;
 	app->file_data.file_data = malloc(sizeof(char *) * capacity);
 	if (!app->file_data.file_data)
 		return (-1);
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
+	*fd = open(filename, O_RDONLY);
+	if (*fd < 0)
 		return (-1);
+	return (capacity);
+}
 
-	while ((line = get_next_line(fd)))
+/* Fonction qui va lire les lignes du fichier pour les stocker dans app*/
+static int	read_file_lines(t_app *app, int fd, int capacity)
+{
+	char	*line;
+	char	**temp;
+	int		i;
+
+	i = 0;
+	line = get_next_line(fd);
+	while (line)
 	{
 		if (i >= capacity)
 		{
@@ -33,25 +38,48 @@ static int	prepare_file_data(t_app *app, const char *filename)
 			app->file_data.file_data = temp;
 		}
 		app->file_data.file_data[i++] = line;
+		line = get_next_line(fd);
 	}
 	app->file_data.file_data[i] = NULL;
 	app->file_data.lines_count = i;
+	return (0);
+}
+
+/* Stocke les valeurs du fichier dans app->file_data.file_data.
+	Retourne une erreur si probleme lors de l'ouverture du fichier
+	ou de la lecture */
+static int	prepare_file_data(t_app *app, const char *filename)
+{
+	int	fd;
+	int	capacity;
+
+	capacity = initialize_file_data(app, filename, &fd);
+	if (capacity < 0)
+		return (-1);
+	if (read_file_lines(app, fd, capacity) < 0)
+		return (-1);
 	close(fd);
 	return (0);
 }
 
-static void free_file_data(t_app *app)
+/* Fonction qui free les donnees stockees du fichier */
+static void	free_file_data(t_app *app)
 {
 	int	i;
 
-	for (i = 0; i < app->file_data.lines_count; i++)
+	i = 0;
+	while (i < app->file_data.lines_count)
+	{
 		free(app->file_data.file_data[i]);
+		i++;
+	}
 	free(app->file_data.file_data);
 	app->file_data.file_data = NULL;
 	app->file_data.lines_count = 0;
 }
 
-int parse_file(t_app *app, const char *filename)
+/* Fonction principale du parsing */
+int	parse_file(t_app *app, const char *filename)
 {
 	if (prepare_file_data(app, filename))
 		exit_error(app, "prepare file data");

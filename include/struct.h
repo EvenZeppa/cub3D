@@ -1,6 +1,12 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
+typedef struct s_cols_rows
+{
+	int			cols;
+	int			rows;
+}				t_cols_rows;
+
 typedef struct s_rgb
 {
 	int			red;

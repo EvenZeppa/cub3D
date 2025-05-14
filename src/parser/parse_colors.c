@@ -1,5 +1,6 @@
 #include "cub3d.h"
 
+/* Transforme la forme 255,255,255 par la structure t_rgb */
 static t_rgb	parse_rgb(char *line)
 {
 	t_rgb	rgb;
@@ -18,6 +19,8 @@ static t_rgb	parse_rgb(char *line)
 	return (rgb);
 }
 
+/* Fonction pour parser le fichier afin de
+	stocker les couleurs du plafond et du sol */
 int	parse_colors(t_app *app)
 {
 	int	i;
