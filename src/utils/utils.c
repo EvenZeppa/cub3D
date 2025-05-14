@@ -22,7 +22,7 @@ int	get_map_width(char **map)
 /* Recupere la hauteur d'une map donnee */
 int	get_map_height(char **map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (map[i])
@@ -31,9 +31,9 @@ int	get_map_height(char **map)
 }
 
 /* Renvoie l'angle du joueur en fonction de sa direction en x et y */
-double get_player_angle(t_app *app)
+double	get_player_angle(t_app *app)
 {
-	double angle;
+	double	angle;
 
 	angle = atan2(app->player.dir_y, app->player.dir_x);
 	if (angle < 0)
@@ -42,16 +42,23 @@ double get_player_angle(t_app *app)
 }
 
 /* Renvoie la taille des cellules en fonction de la map */
-double get_minimap_tile_size(t_app *app)
+double	get_minimap_tile_size(t_app *app)
 {
-	int w = get_map_width(app->file_data.map);
-	int h = get_map_height(app->file_data.map);
-	int max = (w > h) ? w : h;
+	int	w;
+	int	h;
+	int	max;
+
+	w = get_map_width(app->file_data.map);
+	h = get_map_height(app->file_data.map);
+	if (w > h)
+		max = w;
+	else
+		max = h;
 	return ((double)MINIMAP_SIZE / (double)max);
 }
 
 /* Fonction qui remplace la fonction mlx de base pour imprimer des pixels */
-int my_mlx_pixel_put(t_app *app, int x, int y, int color)
+int	my_mlx_pixel_put(t_app *app, int x, int y, int color)
 {
 	char	*dst;
 
