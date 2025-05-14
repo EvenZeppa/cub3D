@@ -1,5 +1,6 @@
 #include "cub3d.h"
 
+/* Dessine un rayon sur la minimap */
 int draw_ray(t_app *app, double x0, double y0, double x1, double y1, int color)
 {
 	double x = x0;

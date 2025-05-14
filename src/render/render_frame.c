@@ -1,11 +1,11 @@
 #include "cub3d.h"
 
-// Fonction qui va modifier la couleur de chaque pixel
-// de la fenêtre en noir pour refresh, en passant par
+/*	Fonction qui va modifier la couleur de chaque pixel
+	de la fenêtre en noir pour la refresh */
 void	clear_frame(t_app *app)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	y = 0;
 	while (y < WIN_HEIGHT)
@@ -20,18 +20,16 @@ void	clear_frame(t_app *app)
 	}
 }
 
-void	draw_background(t_app *app);
+// void	draw_background(t_app *app);
 
+/* Fonction principale pour rendre la fenetre et l'afficher */
 int	render_frame(t_app *app)
 {
-	// Efface la fenêtre pour éviter les résidus (optionnel, dépend de ton système)
 	clear_frame(app);
 	if (draw_minimap(app))
 		return (1);
-
-	if (cast_all_rays(app)) // envoie un seul rayon dans la direction du joueur
+	if (cast_all_rays(app))
 		return (1);
 	mlx_put_image_to_window(app->mlx, app->win, app->img, 0, 0);
-
 	return (0);
 }

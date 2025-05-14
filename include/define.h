@@ -8,7 +8,7 @@
 // Minimap dimensions
 # define MINIMAP_SCALE 0.2
 # define MINIMAP_TILE (TILE_SIZE * MINIMAP_SCALE)
-# define MINIMAP_SIZE 200
+# define MINIMAP_SIZE 600
 
 // Map dimensions
 # define TILE_SIZE 64
