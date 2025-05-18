@@ -1,52 +1,51 @@
 #include "cub3d.h"
 
-int cast_ray(t_app *app)
+int	cast_ray(t_app *app)
 {
-	double angle = get_player_angle(app);
-	double dx = cos(angle);
-	double dy = sin(angle);
-	double hit_x, hit_y;
+	double	pos[4];
+	double	tile;
 
-	if (perform_dda(app, dx, dy, &hit_x, &hit_y))
+	pos[0] = get_player_angle(app);
+	pos[1] = cos(pos[0]);
+	pos[2] = sin(pos[0]);
+	if (perform_dda(app, pos[1], pos[2], &pos[3], &pos[0]))
 		return (1);
-
-	double tile = get_minimap_tile_size(app); // à calculer comme dans draw_minimap()
-
+	tile = get_minimap_tile_size(app);
 	if (draw_ray(app,
 			app->player.x * tile,
 			app->player.y * tile,
-			hit_x * tile,
-			hit_y * tile,
+			pos[3] * tile,
+			pos[0] * tile,
 			0xFF0000))
 		return (1);
 	return (0);
 }
 
-int cast_all_rays(t_app *app)
+int	cast_all_rays(t_app *app)
 {
-	double player_angle = get_player_angle(app);
-	double tile = get_minimap_tile_size(app);
-	double angle_start = player_angle - (FOV / 2.0);
-	double angle_step = FOV / NUM_RAYS;
+	double	v[4];
+	double	ray_angle;
+	double	hit[3];
+	int		i;
 
-	for (int i = 0; i < NUM_RAYS; i++)
+	v[0] = get_player_angle(app) - (FOV / 2.0);
+	v[1] = FOV / NUM_RAYS;
+	i = -1;
+	while (++i < NUM_RAYS)
 	{
-		double ray_angle = angle_start + i * angle_step;
-		double ray_dir_x = cos(ray_angle);
-		double ray_dir_y = sin(ray_angle);
-		double hit_x, hit_y;
-
-		if (perform_dda(app, ray_dir_x, ray_dir_y, &hit_x, &hit_y) == 0)
+		ray_angle = v[0] + i * v[1];
+		v[2] = cos(ray_angle);
+		v[3] = sin(ray_angle);
+		if (perform_dda(app, v[2], v[3], &hit[0], &hit[1]) == 0)
 		{
+			hit[3] = get_minimap_tile_size(app);
 			if (draw_ray(app,
-					app->player.x * tile,
-					app->player.y * tile,
-					hit_x * tile,
-					hit_y * tile,
+					app->player.x * hit[3],
+					app->player.y * hit[3],
+					hit[0] * hit[3], hit[1] * hit[3],
 					0xFF0000))
 				return (1);
 		}
 	}
 	return (0);
 }
-

@@ -7,6 +7,16 @@ typedef struct s_cols_rows
 	int			rows;
 }				t_cols_rows;
 
+typedef struct s_dda {
+	int map_x, map_y;
+	double pos_x, pos_y;
+	double delta_x, delta_y;
+	int step_x, step_y;
+	double side_x, side_y;
+	int side;
+	double perp_dist;
+}				t_dda;
+
 typedef struct s_rgb
 {
 	int			red;
