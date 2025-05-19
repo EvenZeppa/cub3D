@@ -18,11 +18,6 @@ int free_game(t_app *app)
 		mlx_destroy_image(app->mlx, app->frame.img);
 	if (app->win)
 		mlx_destroy_window(app->mlx, app->win);
-	// if (app->mlx)
-	// {
-	// 	mlx_destroy_display(app->mlx);
-	// 	free(app->mlx);
-	// }
-	return (0);
+	return (exit(0), 0);
 }
 

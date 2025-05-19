@@ -3,6 +3,7 @@
 
 # include "cub3d.h"
 
+char	*ft_strldup(const char *s, size_t size);
 int	exit_error(t_app *app, char *message);
 int	free_game(t_app *app);
 int	get_map_width(char **map);

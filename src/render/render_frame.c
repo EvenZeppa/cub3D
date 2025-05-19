@@ -62,7 +62,7 @@ int	get_texture_pixel(t_image *tex, int x, int y)
 	char	*pixel_line = tex->addr + y * tex->size_line;
 	int		*pixels = (int *)pixel_line;
 
-	return pixels[x];
+	return (pixels[x]);
 }
 
 
@@ -83,6 +83,7 @@ void render_frame(t_app *app)
 
 	mlx_put_image_to_window(app->mlx, app->win, app->frame.img, 0, 0);
 	mlx_destroy_image(app->mlx, app->frame.img); // optionnel si recréée à chaque frame
+	app->frame.img = NULL; // pour éviter de libérer deux fois
 }
 
 
