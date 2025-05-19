@@ -3,8 +3,9 @@
 // Callback pour render_frame (appelé à chaque itération de la loop)
 int	loop_hook(t_app *app)
 {
-	if (render_frame(app))
-		exit_error(app, "render frame");
+	render_frame(app);
+	// if (render_frame(app))
+	// 	exit_error(app, "render frame");
 	return (0);
 }
 
@@ -15,6 +16,7 @@ int	launch_game(t_app *app)
 	mlx_hook(app->win, 17, 0L, free_game, app);
 	mlx_loop_hook(app->mlx, loop_hook, app);
 	mlx_loop(app->mlx);
+	return (0);
 }
 
 /** Fonction principale

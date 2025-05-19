@@ -20,8 +20,9 @@ int draw_ray(t_app *app, double x0, double y0, double x1, double y1, int color)
 	dy /= max;
 	while (i <= max)
 	{
-		if (my_mlx_pixel_put(app, x, y, color) < 0)
-			return (1);
+		my_mlx_pixel_put(&app->frame, (int)x, (int)y, color);
+		// if (my_mlx_pixel_put(app, x, y, color) < 0)
+		// 	return (1);
 		x += dx;
 		y += dy;
 		i++;

@@ -58,15 +58,14 @@ double	get_minimap_tile_size(t_app *app)
 }
 
 /* Fonction qui remplace la fonction mlx de base pour imprimer des pixels */
-int	my_mlx_pixel_put(t_app *app, int x, int y, int color)
+void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-	{
-		dst = app->addr + (y * app->line_length + x * (app->bpp
-					/ 8));
-		*(unsigned int *)dst = color;
-	}
-	return (0);
+	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
+		return;
+
+	dst = img->addr + (y * img->size_line + x * (img->bpp / 8));
+	*(unsigned int *)dst = color;
 }
+

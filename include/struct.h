@@ -30,18 +30,21 @@ typedef struct s_player
 	double		y;
 	double		dir_x;
 	double		dir_y;
+	double		angle;
 	double		move_speed;
 	double		rotate_speed;
 }				t_player;
 
-typedef struct s_texture
+typedef struct s_image
 {
 	void		*img;
-	int			*pixels;
+	char		*addr;
 	int			width;
 	int			height;
 	int			bpp;
-}				t_texture;
+	int			size_line;
+	int			endian;
+}				t_image;
 
 typedef struct s_file_data
 {
@@ -54,13 +57,16 @@ typedef struct s_file_data
 	t_rgb		ceiling;
 	t_rgb		floor;
 	char		**map;
+	int			cols;
+	int			rows;
 }				t_file_data;
 
 typedef struct s_app
 {
 	t_file_data	file_data;
 	t_player	player;
-	t_texture	texture[4];
+	t_image		textures[4];
+	t_image		frame;
 	void		*mlx;
 	void		*win;
 	void		*img;

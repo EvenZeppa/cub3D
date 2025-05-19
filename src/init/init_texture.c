@@ -1,31 +1,50 @@
 #include "cub3d.h"
 
 /* Fonction qui va charger une texture avec mlx */
-static int	load_texture(t_app *app, t_texture *tex, char *path)
-{
-	int		size_line;
-	int		endian;
+// static int	load_texture(t_app *app, t_image *tex, char *path)
+// {
+// 	int		size_line;
+// 	int		endian;
 
+// 	tex->img = mlx_xpm_file_to_image(app->mlx, path, &tex->width, &tex->height);
+// 	if (!tex->img)
+// 		return (1);
+// 	tex->addr = mlx_get_data_addr(tex->img,
+// 			&tex->bpp, &size_line, &endian);
+// 	printf("Tex width=%d height=%d bpp=%d size_line=%d endian=%d\n", tex->width, tex->height, tex->bpp, tex->size_line, tex->endian);
+// 	// dump 16 premieres valeurs de text->addr
+// 	for (int i = 0; i < 16; i++)
+// 		printf("%d ", tex->addr[i]);
+// 	printf("\n");
+
+// 	if (!tex->addr)
+// 		return (1);
+// 	return (0);
+// }
+
+static int	load_texture(t_app *app, t_image *tex, char *path)
+{
 	tex->img = mlx_xpm_file_to_image(app->mlx, path, &tex->width, &tex->height);
 	if (!tex->img)
 		return (1);
-	tex->pixels = (int *)mlx_get_data_addr(tex->img,
-			&tex->bpp, &size_line, &endian);
-	if (!tex->pixels)
+	tex->addr = mlx_get_data_addr(tex->img,
+			&tex->bpp, &tex->size_line, &tex->endian);
+	if (!tex->addr)
 		return (1);
 	return (0);
 }
 
+
 /* Fonction globale qui va charger les textures N W E et S */
 int	init_textures(t_app *app)
 {
-	if (load_texture(app, &app->texture[0], app->file_data.texture_north))
+	if (load_texture(app, &app->textures[0], app->file_data.texture_north))
 		exit_error(app, "load tex north");
-	if (load_texture(app, &app->texture[1], app->file_data.texture_south))
+	if (load_texture(app, &app->textures[1], app->file_data.texture_south))
 		exit_error(app, "load tex south");
-	if (load_texture(app, &app->texture[2], app->file_data.texture_east))
+	if (load_texture(app, &app->textures[2], app->file_data.texture_east))
 		exit_error(app, "load tex east");
-	if (load_texture(app, &app->texture[3], app->file_data.texture_west))
+	if (load_texture(app, &app->textures[3], app->file_data.texture_west))
 		exit_error(app, "load tex west");
 	return (0);
 }

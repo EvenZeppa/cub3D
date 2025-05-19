@@ -60,9 +60,13 @@ int	parse_map(t_app *app)
 	if (start == -1)
 		return (1);
 	map_lines = app->file_data.lines_count - start;
+	app->file_data.rows = map_lines;
 	if (allocate_map(app, map_lines))
 		return (1);
 	if (copy_map_lines(app, start, map_lines))
+		return (1);
+	app->file_data.cols = ft_strlen(app->file_data.file_data[start]);
+	if (app->file_data.cols == 0)
 		return (1);
 	return (0);
 }

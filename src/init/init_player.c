@@ -6,7 +6,7 @@ int	init_player(t_app *app)
 	int	x;
 	int	y;
 
-	app->player.move_speed = 0.2;
+	app->player.move_speed = 0.3;
 	app->player.rotate_speed = 0.1;
 	x = 0;
 	while (app->file_data.map[x] != 0)
