@@ -10,13 +10,12 @@ static t_rgb	parse_rgb(char *line)
 	split = ft_split(line, ',');
 	if (!split || !split[0] || !split[1] || !split[2])
 	{
-		free(split); // safe même si NULL
+		free(split);
 		exit_error(NULL, "Invalid RGB format");
 	}
 	rgb.red = ft_atoi(split[0]);
 	rgb.green = ft_atoi(split[1]);
 	rgb.blue = ft_atoi(split[2]);
-
 	tmp = split;
 	while (*tmp)
 	{

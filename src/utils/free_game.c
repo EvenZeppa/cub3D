@@ -1,9 +1,9 @@
 #include "cub3d.h"
 
 /* Fonction pour liberer les donnees sur la heap */
-int free_game(t_app *app)
+int	free_game(t_app *app)
 {
-	int i;
+	int	i;
 
 	if (!app)
 		return (1);
@@ -20,4 +20,3 @@ int free_game(t_app *app)
 		mlx_destroy_window(app->mlx, app->win);
 	return (exit(0), 0);
 }
-

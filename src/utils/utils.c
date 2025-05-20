@@ -41,34 +41,18 @@ double	get_player_angle(t_app *app)
 	return (angle);
 }
 
-/* Renvoie la taille des cellules en fonction de la map */
-double	get_minimap_tile_size(t_app *app)
-{
-	int	w;
-	int	h;
-	int	max;
-
-	w = get_map_width(app->file_data.map);
-	h = get_map_height(app->file_data.map);
-	if (w > h)
-		max = w;
-	else
-		max = h;
-	return ((double)MINIMAP_SIZE / (double)max);
-}
-
 /* Fonction qui remplace la fonction mlx de base pour imprimer des pixels */
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 {
 	char	*dst;
 
 	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
-		return;
-
+		return ;
 	dst = img->addr + (y * img->size_line + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
 
+/* @TODO A mettre dans la libft */
 char	*ft_strldup(const char *s, size_t size)
 {
 	char	*ptr;
@@ -79,4 +63,3 @@ char	*ft_strldup(const char *s, size_t size)
 	ft_strlcpy(ptr, s, size);
 	return (ptr);
 }
-

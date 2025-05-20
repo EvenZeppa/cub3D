@@ -5,24 +5,19 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 
-// Minimap dimensions
-# define MINIMAP_SCALE 0.2
-# define MINIMAP_TILE (TILE_SIZE * MINIMAP_SCALE)
-# define MINIMAP_SIZE 600
-
 // Map dimensions
 # define TILE_SIZE 64
 
 // Input keys
 # ifdef __linux__
-# define KEY_W 119
-# define KEY_S 115
-# define KEY_A 97
-# define KEY_D 100
-# define KEY_ESC 65307
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
-#endif
+#  define KEY_W 119
+#  define KEY_S 115
+#  define KEY_A 97
+#  define KEY_D 100
+#  define KEY_ESC 65307
+#  define KEY_LEFT 65361
+#  define KEY_RIGHT 65363
+# endif
 
 # ifdef __APPLE__
 #  define KEY_W 13
@@ -36,8 +31,7 @@
 
 // Player
 # define COLLISION_MARGIN 0.1
-# define M_PI 3.14159265358979323846
-# define FOV (60 * (M_PI / 180.0))
-# define NUM_RAYS 320
+# define FOV 1.04716666667
+# define NUM_RAYS WIN_WIDTH
 
 #endif
