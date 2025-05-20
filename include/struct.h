@@ -106,6 +106,20 @@ typedef struct s_file_data
 	int			rows;
 }				t_file_data;
 
+// Represents the minimap configuration.
+typedef struct s_minimap
+{
+	int	center_x;
+	int	center_y;
+	int	radius;
+	int	scale;
+	int	background_color;
+	int	wall_color;
+	int	floor_color;
+	int	player_color;
+	int	player_radius;
+}	t_minimap;
+
 // Main application structure holding all game state.
 typedef struct s_app
 {

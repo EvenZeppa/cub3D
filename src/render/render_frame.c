@@ -14,17 +14,6 @@ int	get_texture_pixel(t_image *tex, int x, int y)
 	return (pixels[x]);
 }
 
-void	render_frame(t_app *app)
-{
-	app->frame.img = mlx_new_image(app->mlx, WIN_WIDTH, WIN_HEIGHT);
-	app->frame.addr = mlx_get_data_addr(app->frame.img,
-			&app->frame.bpp, &app->frame.size_line, &app->frame.endian);
-	render_scene(app);
-	mlx_put_image_to_window(app->mlx, app->win, app->frame.img, 0, 0);
-	mlx_destroy_image(app->mlx, app->frame.img);
-	app->frame.img = NULL;
-}
-
 t_image	*choose_wall_texture(t_app *app,
 	int side, double ray_dir_x, double ray_dir_y)
 {
@@ -66,4 +55,16 @@ void	render_scene(t_app *app)
 		i++;
 	}
 	mlx_put_image_to_window(app->mlx, app->win, app->frame.img, 0, 0);
+}
+
+void	render_frame(t_app *app)
+{
+	app->frame.img = mlx_new_image(app->mlx, WIN_WIDTH, WIN_HEIGHT);
+	app->frame.addr = mlx_get_data_addr(app->frame.img,
+			&app->frame.bpp, &app->frame.size_line, &app->frame.endian);
+	render_scene(app);
+	draw_minimap(app);
+	mlx_put_image_to_window(app->mlx, app->win, app->frame.img, 0, 0);
+	mlx_destroy_image(app->mlx, app->frame.img);
+	app->frame.img = NULL;
 }
