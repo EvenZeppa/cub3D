@@ -3,6 +3,9 @@
 
 # include "cub3d.h"
 
+// Handles mouse movement events.
+int		mouse_move(int x, int y, t_app *app);
+
 // Handles key press events.
 int		key_press(int keycode, t_app *app);
 

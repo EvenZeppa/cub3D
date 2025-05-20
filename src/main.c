@@ -10,6 +10,7 @@ int	launch_game(t_app *app)
 {
 	mlx_hook(app->win, 2, 1L << 0, key_press, app);
 	mlx_hook(app->win, 17, 0L, free_game, app);
+	mlx_hook(app->win, 6, 1L << 6, mouse_move, app);
 	mlx_loop_hook(app->mlx, loop_hook, app);
 	mlx_loop(app->mlx);
 	return (0);

@@ -10,6 +10,8 @@ int	init_game(t_app *app, char *map_path)
 		exit_error(app, "init win");
 	app->frame.img = NULL;
 	app->frame.addr = NULL;
+	app->mouse_sensitivity = MOUSE_SENSITIVITY;
+	app->mouse_initialized = 0;
 	if (parse_file(app, map_path))
 		exit_error(app, "parsing");
 	if (init_map(app))

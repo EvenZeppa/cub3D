@@ -20,6 +20,6 @@ t_image	*choose_wall_texture(t_app *app,
 			int side, double ray_dir_x, double ray_dir_y);
 
 // Draw the minimap on the screen.
-void draw_minimap(t_app *app);
+void	draw_minimap(t_app *app);
 
 #endif

@@ -34,15 +34,18 @@
 # define FOV 1.04716666667
 # define NUM_RAYS WIN_WIDTH
 
+// Mouse
+# define MOUSE_SENSITIVITY 0.005
+
 // Minimap
-# define MINIMAP_RADIUS 50  // rayon en pixels
-# define MINIMAP_SCALE 8    // 1 case de map = 8 pixels sur la minimap
-# define MINIMAP_CENTER_X  (MINIMAP_RADIUS + 10) // position à l’écran
-# define MINIMAP_CENTER_Y  (MINIMAP_RADIUS + 10)
-# define PLAYER_CIRCLE_RADIUS 5 // rayon du cercle représentant le joueur
-# define MINIMAP_BACKGROUND_COLOR 0x202020 // couleur de fond de la minimap
-# define MINIMAP_WALL_COLOR 0x888888 // couleur des murs sur la minimap
-# define MINIMAP_FLOOR_COLOR 0x444444 // couleur du sol sur la minimap
-# define MINIMAP_PLAYER_COLOR 0xFF0000 // couleur du joueur sur la minimap
+# define MINIMAP_RADIUS 50
+# define MINIMAP_SCALE 8
+# define MINIMAP_CENTER_X 60
+# define MINIMAP_CENTER_Y 60
+# define PLAYER_CIRCLE_RADIUS 5
+# define MINIMAP_BACKGROUND_COLOR 0x202020
+# define MINIMAP_WALL_COLOR 0x888888
+# define MINIMAP_FLOOR_COLOR 0x444444
+# define MINIMAP_PLAYER_COLOR 0xFF0000
 
 #endif

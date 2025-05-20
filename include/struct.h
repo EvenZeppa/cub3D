@@ -134,6 +134,9 @@ typedef struct s_app
 	int			bpp;
 	int			line_length;
 	int			endian;
+	double		mouse_sensitivity;
+	int			prev_mouse_x;
+	int			mouse_initialized;
 }				t_app;
 
 #endif
