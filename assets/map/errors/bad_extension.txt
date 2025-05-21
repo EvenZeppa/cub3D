@@ -1,0 +1,10 @@
+NO ./assets/textures/eagle.xpm
+SO ./assets/textures/greystone.xpm
+WE ./assets/textures/purplestone.xpm
+EA ./assets/textures/red.xpm
+F 220,100,0
+C 225,30,0
+
+111
+1N1
+111

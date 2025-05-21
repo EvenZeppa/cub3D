@@ -6,7 +6,7 @@ int	free_game(t_app *app)
 	int	i;
 
 	if (!app)
-		return (1);
+		return (exit(0), 1);
 	i = 0;
 	while (i < 4)
 	{

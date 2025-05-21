@@ -2,12 +2,10 @@ NO ./assets/textures/eagle.xpm
 SO ./assets/textures/greystone.xpm
 WE ./assets/textures/purplestone.xpm
 EA ./assets/textures/red.xpm
-
 F 220,100,0
 C 225,30,0
 
-111111
-100101
-101001
-1100N1
-111111
+111
+1A1
+1N1
+111

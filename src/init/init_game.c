@@ -12,6 +12,10 @@ int	init_game(t_app *app, char *map_path)
 	app->frame.addr = NULL;
 	app->mouse_sensitivity = MOUSE_SENSITIVITY;
 	app->mouse_initialized = 0;
+	app->textures[0].img = NULL;
+	app->textures[1].img = NULL;
+	app->textures[2].img = NULL;
+	app->textures[3].img = NULL;
 	if (parse_file(app, map_path))
 		exit_error(app, "parsing");
 	if (init_map(app))

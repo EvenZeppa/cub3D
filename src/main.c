@@ -22,6 +22,8 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		return (printf("Usage : ./cub3D map.cub"));
+	if (ft_strnstr(argv[1], ".cub", ft_strlen(argv[1])) == NULL)
+		return (printf("Error : Invalid file extension\n"));
 	if (init_game(&app, argv[1]))
 		exit_error(&app, "Init app");
 	if (launch_game(&app))

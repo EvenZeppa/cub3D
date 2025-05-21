@@ -26,6 +26,14 @@ static t_rgb	parse_rgb(char *line)
 	return (rgb);
 }
 
+int	check_rgb(t_rgb rgb)
+{
+	if (rgb.red < 0 || rgb.red > 255 || rgb.green < 0
+		|| rgb.green > 255 || rgb.blue < 0 || rgb.blue > 255)
+		return (1);
+	return (0);
+}
+
 /* Fonction pour parser le fichier afin de
 	stocker les couleurs du plafond et du sol */
 int	parse_colors(t_app *app)
@@ -40,6 +48,11 @@ int	parse_colors(t_app *app)
 		else if (ft_strnstr(app->file_data.file_data[i], "F ", 2))
 			app->file_data.floor = parse_rgb(app->file_data.file_data[i] + 2);
 		i++;
+	}
+	if (check_rgb(app->file_data.ceiling) || check_rgb(app->file_data.floor))
+	{
+		exit_error(app, "Invalid RGB values");
+		return (1);
 	}
 	return (0);
 }
