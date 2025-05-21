@@ -11,7 +11,6 @@
 
 # include "libft.h"
 # include "mlx.h"
-# include "get_next_line.h"
 
 # include "define.h"
 # include "struct.h"

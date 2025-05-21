@@ -4,21 +4,6 @@
 # include "cub3d.h"
 
 /**
- * @brief Duplique une sous-chaîne de taille limitée.
- *
- * Alloue et copie au maximum `size` octets depuis la chaîne source,
- * sans forcément s'arrêter sur `\0`. Fonction utile pour copier
- * des chaînes partielles.
- *
- * @param s Chaîne source.
- * @param size Nombre de caractères à dupliquer.
- * @return Pointeur vers la nouvelle chaîne, ou NULL en cas d'erreur.
- *
- * @note Cette fonction devrait idéalement être placée dans libft.
- */
-char	*ft_strldup(const char *s, size_t size);
-
-/**
  * @brief Affiche un message d'erreur, libère les ressources et quitte.
  *
  * Cette fonction affiche un message d'erreur formaté, libère
