@@ -1,7 +1,16 @@
 #include "cub3d.h"
 
-/* Fonction pour transformer la map en version rectangulaire
-	Utile pour simplifier le check de la map */
+/**
+ * @brief Crée une grille rectangulaire à partir de la carte originale.
+ *
+ * Cette fonction prend une carte de taille variable (lignes de longueurs
+ * différentes) et la convertit en une grille rectangulaire remplie d'espaces,
+ * ce qui permet une vérification uniforme de la carte.
+ *
+ * @param map Carte initiale sous forme de tableau de chaînes.
+ * @param cols_rows Dimensions (colonnes et lignes) de la grille finale.
+ * @return Grille rectangulaire allouée dynamiquement ou NULL en cas d’échec.
+ */
 static char	**create_rectangular_grid(char **map, t_cols_rows cols_rows)
 {
 	int		rows;
@@ -28,7 +37,19 @@ static char	**create_rectangular_grid(char **map, t_cols_rows cols_rows)
 	return (grid);
 }
 
-/* Fonction pour version dans une grid si elle est bien entouree de murs */
+/**
+ * @brief Vérifie les cellules voisines d'une position pour la validité.
+ *
+ * Cette fonction vérifie que les 4 cases adjacentes (haut, bas, gauche,
+ * droite) ne sont pas des espaces vides, ce qui indiquerait une faille
+ * potentielle dans l'encadrement de la carte.
+ *
+ * @param grid Grille rectangulaire représentant la carte.
+ * @param row Ligne actuelle.
+ * @param col Colonne actuelle.
+ * @param cols_rows Dimensions de la grille.
+ * @return 1 si les cellules voisines sont valides, 0 sinon.
+ */
 static int	check_surrounding_cells(char **grid,
 	int row, int col, t_cols_rows cols_rows)
 {
@@ -52,9 +73,21 @@ static int	check_surrounding_cells(char **grid,
 	return (1);
 }
 
-/* Verifie la validite de la map avec les fonction secondaires*/
+/**
+ * @brief Vérifie si la grille est valide selon les règles du jeu.
+ *
+ * Cette fonction vérifie les caractères autorisés, les positions valides
+ * pour le joueur et les cellules ouvertes ('0'). Elle s'assure également
+ * qu'il y a exactement un joueur et que toutes les cellules ouvertes ou
+ * de départ sont bien entourées.
+ *
+ * @param grid Grille rectangulaire de la carte.
+ * @param cols_rows Dimensions de la grille.
+ * @param player_count Pointeur vers un compteur de joueurs trouvés.
+ * @return 0 si la carte est valide, 1 en cas d’erreur.
+ */
 static int	check_map_validity(char **grid,
-		t_cols_rows cols_rows, int *player_count)
+	t_cols_rows cols_rows, int *player_count)
 {
 	int		i;
 	int		j;
@@ -83,7 +116,14 @@ static int	check_map_validity(char **grid,
 	return (0);
 }
 
-/* Free la grid en fin d'usage */
+/**
+ * @brief Libère la mémoire allouée pour une grille de carte.
+ *
+ * Parcourt chaque ligne du tableau et la libère avant de libérer le tableau lui-même.
+ *
+ * @param grid Grille allouée dynamiquement.
+ * @param rows Nombre de lignes à libérer.
+ */
 static void	free_grid(char **grid, int rows)
 {
 	int	i;
@@ -97,7 +137,6 @@ static void	free_grid(char **grid, int rows)
 	free(grid);
 }
 
-/* Fonction principale pour checker si la map est bien conforme*/
 int	check_map(t_app *app)
 {
 	t_cols_rows	cols_rows;

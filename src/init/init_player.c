@@ -1,6 +1,5 @@
 #include "cub3d.h"
 
-/* Fonction d'initialisation de la structure t_player */
 int	init_player(t_app *app)
 {
 	int	x;

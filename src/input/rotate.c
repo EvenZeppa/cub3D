@@ -1,6 +1,5 @@
 #include "cub3d.h"
 
-/* Fonction pour faire les rotations a droite */
 void	rotate_right(t_app *app)
 {
 	double	old_dir_x;
@@ -14,7 +13,6 @@ void	rotate_right(t_app *app)
 		+ app->player.dir_y * cos(angle);
 }
 
-/* Fonction pour faire les rotations a gauche */
 void	rotate_left(t_app *app)
 {
 	double	old_dir_x;

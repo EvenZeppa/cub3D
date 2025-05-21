@@ -1,5 +1,15 @@
 #include "cub3d.h"
 
+/**
+ * @brief Initialise les données nécessaires au DDA à partir du contexte.
+ *
+ * Récupère la position du joueur, la direction du rayon et les dimensions
+ * de la carte pour préparer la structure `t_dda` avant exécution du DDA.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param ray Pointeur vers la structure représentant un rayon.
+ * @param dda Pointeur vers la structure DDA à initialiser.
+ */
 static void	init_dda_data(t_app *app, t_ray *ray, t_dda *dda)
 {
 	dda->map = app->file_data.map;
@@ -11,6 +21,17 @@ static void	init_dda_data(t_app *app, t_ray *ray, t_dda *dda)
 	dda->dir_y = ray->dir_y;
 }
 
+/**
+ * @brief Met à jour les données du rayon après exécution du DDA.
+ *
+ * Calcule la distance corrigée (projection plan), la hauteur du mur
+ * à dessiner, et les bornes de dessin (`draw_start`, `draw_end`) en
+ * fonction de la distance du rayon à la caméra.
+ *
+ * @param ray Pointeur vers la structure représentant un rayon.
+ * @param dda Pointeur vers la structure DDA contenant les résultats.
+ * @param base_angle Angle initial de la caméra, utilisé pour correction.
+ */
 static void	fill_ray_from_dda(t_ray *ray, t_dda *dda, double base_angle)
 {
 	if (dda->dist < 0)

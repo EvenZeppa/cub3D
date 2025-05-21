@@ -1,6 +1,14 @@
 #include "cub3d.h"
 
-/* Fonction qui cherche et renvoie l'index du debut de la map dans le fichier */
+/**
+ * @brief Trouve l'index de la première ligne correspondant à la map.
+ *
+ * Parcourt les lignes du fichier de configuration pour trouver la
+ * première ligne considérée comme appartenant à la carte.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @return Index de début de la map, ou -1 si aucune ligne valide n’est trouvée.
+ */
 static int	find_map_start(t_app *app)
 {
 	int	total_lines;
@@ -17,7 +25,16 @@ static int	find_map_start(t_app *app)
 	return (-1);
 }
 
-/* Alloue la memoire pour stocker la map */
+/**
+ * @brief Alloue la mémoire pour stocker les lignes de la carte.
+ *
+ * Alloue un tableau de chaînes qui contiendra toutes les lignes
+ * représentant la carte dans le fichier de configuration.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param map_lines Nombre de lignes de la carte à allouer.
+ * @return 0 si succès, 1 en cas d'échec d’allocation.
+ */
 static int	allocate_map(t_app *app, int map_lines)
 {
 	app->file_data.map = malloc(sizeof(char *) * (map_lines + 1));
@@ -26,8 +43,18 @@ static int	allocate_map(t_app *app, int map_lines)
 	return (0);
 }
 
-/* Fonction qui va copier les lignes du fichier
-	pour les stocker dans la structure app */
+/**
+ * @brief Copie les lignes de la carte depuis les données du fichier.
+ *
+ * Duplique les lignes du fichier à partir d’un index donné pour
+ * les stocker dans la structure `map`. En cas d’échec, libère
+ * proprement la mémoire allouée.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param start Index de la première ligne de la carte dans file_data.
+ * @param map_lines Nombre total de lignes à copier.
+ * @return 0 si succès, 1 en cas d’erreur d’allocation.
+ */
 static int	copy_map_lines(t_app *app, int start, int map_lines)
 {
 	int	i;
@@ -50,7 +77,6 @@ static int	copy_map_lines(t_app *app, int start, int map_lines)
 	return (0);
 }
 
-/* Fonction principale pour parser la map */
 int	parse_map(t_app *app)
 {
 	int	start;

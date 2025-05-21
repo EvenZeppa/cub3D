@@ -1,7 +1,5 @@
 #include "cub3d.h"
 
-/* Fonction pour parser le fichier afin de
-	stocker les file paths des textures */
 int	parse_textures(t_app *app)
 {
 	int	i;

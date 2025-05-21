@@ -1,7 +1,18 @@
 #include "cub3d.h"
 
-/* Fonction qui va uniquement initialiser l'ouverture du fichier */
-static int	initialize_file_data(t_app *app, const char *filename, int *fd)
+/**
+ * @brief Initialise les données de fichier pour l'application.
+ *
+ * Alloue un tableau dynamique de chaînes pour stocker les lignes du
+ * fichier et ouvre le fichier en lecture seule.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param filename Nom du fichier à ouvrir.
+ * @param fd Pointeur vers un int pour stocker le descripteur de fichier.
+ * @return Capacité initiale allouée ou -1 en cas d'erreur.
+ */
+static int	initialize_file_data(t_app *app,
+	const char *filename, int *fd)
 {
 	int	capacity;
 
@@ -15,7 +26,17 @@ static int	initialize_file_data(t_app *app, const char *filename, int *fd)
 	return (capacity);
 }
 
-/* Fonction qui va lire les lignes du fichier pour les stocker dans app*/
+/**
+ * @brief Lit les lignes du fichier et les stocke dans app->file_data.
+ *
+ * Utilise get_next_line() pour lire le fichier ligne par ligne. Si la
+ * capacité initiale est dépassée, le tableau est réaloué dynamiquement.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param fd Descripteur de fichier ouvert.
+ * @param capacity Capacité initiale du tableau.
+ * @return 0 si tout se passe bien, -1 en cas d'erreur.
+ */
 static int	read_file_lines(t_app *app, int fd, int capacity)
 {
 	char	*line;
@@ -45,9 +66,15 @@ static int	read_file_lines(t_app *app, int fd, int capacity)
 	return (0);
 }
 
-/* Stocke les valeurs du fichier dans app->file_data.file_data.
-	Retourne une erreur si probleme lors de l'ouverture du fichier
-	ou de la lecture */
+/**
+ * @brief Prépare les données du fichier avant le parsing.
+ *
+ * Initialise la structure `file_data`, ouvre le fichier et lit les lignes.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param filename Chemin du fichier à lire.
+ * @return 0 si succès, -1 en cas d'échec.
+ */
 static int	prepare_file_data(t_app *app, const char *filename)
 {
 	int	fd;
@@ -62,7 +89,13 @@ static int	prepare_file_data(t_app *app, const char *filename)
 	return (0);
 }
 
-/* Fonction qui free les donnees stockees du fichier */
+/**
+ * @brief Libère la mémoire allouée pour les lignes du fichier.
+ *
+ * Parcourt toutes les lignes et les libère, puis libère le tableau lui-même.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ */
 static void	free_file_data(t_app *app)
 {
 	int	i;
@@ -78,7 +111,6 @@ static void	free_file_data(t_app *app)
 	app->file_data.lines_count = 0;
 }
 
-/* Fonction principale du parsing */
 int	parse_file(t_app *app, const char *filename)
 {
 	if (prepare_file_data(app, filename))
