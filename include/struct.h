@@ -1,32 +1,96 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
-typedef struct s_rgb
+// Stores the number of columns and rows in the map.
+typedef struct s_cols_rows
 {
-	int			red;
-	int			green;
-	int			blue;
-}				t_rgb;
+	int			cols;
+	int			rows;
+}				t_cols_rows;
 
-typedef struct s_player
+// Holds all variables needed
+// for the DDA (Digital Differential Analyzer) algorithm.
+typedef struct s_dda
 {
-	double		x;
-	double		y;
+	// Inputs
+	char		**map;
+	int			map_width;
+	int			map_height;
+	double		pos_x;
+	double		pos_y;
 	double		dir_x;
 	double		dir_y;
-	double		move_speed;
-	double		rotate_speed;
+
+	// Interns
+	int			map_x;
+	int			map_y;
+	int			step_x;
+	int			step_y;
+	double		side_x;
+	double		side_y;
+	double		delta_x;
+	double		delta_y;
+
+	// Outputs
+	int			side;
+	double		hit_x;
+	double		hit_y;
+	double		dist;
+}	t_dda;
+
+// Stores information about a single ray for raycasting.
+typedef struct s_ray
+{
+	double	angle;
+	double	dir_x;
+	double	dir_y;
+	double	dist;
+	double	corrected_dist;
+	double	hit_x;
+	double	hit_y;
+	int		side;
+	int		wall_height;
+	int		draw_start;
+	int		draw_end;
+	int		screen_x;
+	int		tex_x;
+	int		tex_y;
+}	t_ray;
+
+// Represents an RGB color.
+typedef struct s_rgb
+{
+	int	red;
+	int	green;
+	int	blue;
+}				t_rgb;
+
+// Stores player position, direction, and movement parameters.
+typedef struct s_player
+{
+	double	x;
+	double	y;
+	double	dir_x;
+	double	dir_y;
+	double	angle;
+	double	move_speed;
+	double	rotate_speed;
 }				t_player;
 
-typedef struct s_texture
+// Represents an image or texture.
+typedef struct s_image
 {
 	void		*img;
-	int			*pixels;
+	char		*addr;
 	int			width;
 	int			height;
 	int			bpp;
-}				t_texture;
+	int			size_line;
+	int			endian;
+}				t_image;
 
+// Stores all data loaded from the configuration file,
+// including textures and map.
 typedef struct s_file_data
 {
 	char		**file_data;
@@ -38,13 +102,31 @@ typedef struct s_file_data
 	t_rgb		ceiling;
 	t_rgb		floor;
 	char		**map;
+	int			cols;
+	int			rows;
 }				t_file_data;
 
+// Represents the minimap configuration.
+typedef struct s_minimap
+{
+	int	center_x;
+	int	center_y;
+	int	radius;
+	int	scale;
+	int	background_color;
+	int	wall_color;
+	int	floor_color;
+	int	player_color;
+	int	player_radius;
+}	t_minimap;
+
+// Main application structure holding all game state.
 typedef struct s_app
 {
 	t_file_data	file_data;
 	t_player	player;
-	t_texture	texture[4];
+	t_image		textures[4];
+	t_image		frame;
 	void		*mlx;
 	void		*win;
 	void		*img;
@@ -52,6 +134,9 @@ typedef struct s_app
 	int			bpp;
 	int			line_length;
 	int			endian;
+	double		mouse_sensitivity;
+	int			prev_mouse_x;
+	int			mouse_initialized;
 }				t_app;
 
 #endif

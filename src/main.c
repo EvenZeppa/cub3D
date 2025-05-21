@@ -1,24 +1,19 @@
 #include "cub3d.h"
 
-// Callback pour render_frame (appelé à chaque itération de la loop)
 int	loop_hook(t_app *app)
 {
-	if (render_frame(app))
-		exit_error(app, "render frame");
+	render_frame(app);
 	return (0);
 }
 
-// Initialise les hooks et démarre la boucle principale
 int	launch_game(t_app *app)
 {
-	// Hook pour les entrées clavier (appui)
 	mlx_hook(app->win, 2, 1L << 0, key_press, app);
-	// Hook pour la fermeture de la fenêtre (croix rouge)
 	mlx_hook(app->win, 17, 0L, free_game, app);
-	// Hook pour le rendu à chaque frame
+	mlx_hook(app->win, 6, 1L << 6, mouse_move, app);
 	mlx_loop_hook(app->mlx, loop_hook, app);
-	// Boucle principale MinilibX
 	mlx_loop(app->mlx);
+	return (0);
 }
 
 int	main(int argc, char *argv[])

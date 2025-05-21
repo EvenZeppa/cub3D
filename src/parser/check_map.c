@@ -1,84 +1,126 @@
 #include "cub3d.h"
 
-static int	check_surroundings(char **map, int row, int col, int rows, int cols)
+/* Fonction pour transformer la map en version rectangulaire
+	Utile pour simplifier le check de la map */
+static char	**create_rectangular_grid(char **map, t_cols_rows cols_rows)
 {
-	// Coordonnées autour
-	const int dx[] = {-1, 1, 0, 0};
-	const int dy[] = {0, 0, -1, 1};
-	int i, x, y;
+	int		rows;
+	int		cols;
+	char	**grid;
+	int		i;
 
-	for (i = 0; i < 4; i++)
+	rows = cols_rows.rows;
+	cols = cols_rows.cols;
+	grid = malloc(sizeof(char *) * rows);
+	if (!grid)
+		return (NULL);
+	i = 0;
+	while (i < rows)
 	{
-		x = row + dx[i];
-		y = col + dy[i];
-		if (x < 0 || x >= rows || y < 0 || y >= cols)
-			return (0); // bord du tableau = pas fermé
-		if (map[x][y] == ' ')
-			return (0); // adjacent à un espace = erreur
+		grid[i] = malloc(cols + 1);
+		if (!grid[i])
+			return (NULL);
+		memset(grid[i], ' ', cols);
+		memcpy(grid[i], map[i], strlen(map[i]));
+		grid[i][cols] = '\0';
+		i++;
+	}
+	return (grid);
+}
+
+/* Fonction pour version dans une grid si elle est bien entouree de murs */
+static int	check_surrounding_cells(char **grid,
+	int row, int col, t_cols_rows cols_rows)
+{
+	const int	dx[] = {-1, 1, 0, 0};
+	const int	dy[] = {0, 0, -1, 1};
+	t_cols_rows	xy;
+	int			i;
+
+	i = 0;
+	while (i < 4)
+	{
+		xy.rows = row + dx[i];
+		xy.cols = col + dy[i];
+		if (xy.rows < 0 || xy.rows >= cols_rows.rows
+			|| xy.cols < 0 || xy.cols >= cols_rows.cols)
+			return (0);
+		if (grid[xy.rows][xy.cols] == ' ')
+			return (0);
+		i++;
 	}
 	return (1);
 }
 
-int	check_map(t_app *app)
+/* Verifie la validite de la map avec les fonction secondaires*/
+static int	check_map_validity(char **grid,
+		t_cols_rows cols_rows, int *player_count)
 {
-	char	**map = app->file_data.map;
-	int		rows = 0, cols = 0;
-	int		player_count = 0;
-	int		i, j;
+	int		i;
+	int		j;
+	char	c;
 
-	// Calcul du nombre de lignes et max longueur
-	while (map[rows])
+	i = -1;
+	while (++i < cols_rows.rows)
 	{
-		int len = strlen(map[rows]);
-		if (len > cols)
-			cols = len;
-		rows++;
-	}
-
-	// Créer une copie rectangulaire
-	char **grid = malloc(sizeof(char *) * rows);
-	if (!grid)
-		return (-1);
-
-	for (i = 0; i < rows; i++)
-	{
-		grid[i] = malloc(cols + 1);
-		if (!grid[i])
-			return (-1);
-		memset(grid[i], ' ', cols);
-		memcpy(grid[i], map[i], strlen(map[i]));
-		grid[i][cols] = '\0';
-	}
-
-	// Vérification
-	for (i = 0; i < rows; i++)
-	{
-		for (j = 0; j < cols; j++)
+		j = -1;
+		while (++j < cols_rows.cols)
 		{
-			char c = grid[i][j];
+			c = grid[i][j];
 			if (!is_valid_map_char(c))
-				return (fprintf(stderr, "Invalid character in map: %c\n", c), -1);
+				return (1);
 			if (is_player_char(c))
 			{
-				player_count++;
-				if (!check_surroundings(grid, i, j, rows, cols))
-					return (fprintf(stderr, "Map not closed around player at %d,%d\n", i, j), -1);
+				(*player_count)++;
+				if (!check_surrounding_cells(grid, i, j, cols_rows))
+					return (1);
 			}
-			else if (c == '0')
-			{
-				if (!check_surroundings(grid, i, j, rows, cols))
-					return (fprintf(stderr, "Map not closed around space at %d,%d\n", i, j), -1);
-			}
+			else if (c == '0'
+				&& !check_surrounding_cells(grid, i, j, cols_rows))
+				return (1);
 		}
 	}
+	return (0);
+}
 
-	if (player_count != 1)
-		return (fprintf(stderr, "Map must have exactly one player start\n"), -1);
+/* Free la grid en fin d'usage */
+static void	free_grid(char **grid, int rows)
+{
+	int	i;
 
-	// Free temporaire
-	for (i = 0; i < rows; i++)
+	i = 0;
+	while (i < rows)
+	{
 		free(grid[i]);
+		i++;
+	}
 	free(grid);
+}
 
+/* Fonction principale pour checker si la map est bien conforme*/
+int	check_map(t_app *app)
+{
+	t_cols_rows	cols_rows;
+	int			player_count;
+	char		**map;
+	char		**grid;
+
+	player_count = 0;
+	map = app->file_data.map;
+	calculate_map_dimensions(map, &cols_rows);
+	grid = create_rectangular_grid(map, cols_rows);
+	if (!grid)
+		return (-1);
+	if (check_map_validity(grid, cols_rows, &player_count) != 0)
+	{
+		free_grid(grid, cols_rows.rows);
+		return (-1);
+	}
+	if (player_count != 1)
+	{
+		free_grid(grid, cols_rows.rows);
+		return (-1);
+	}
+	free_grid(grid, cols_rows.rows);
 	return (0);
 }

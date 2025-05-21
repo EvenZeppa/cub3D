@@ -1,17 +1,18 @@
 #include "cub3d.h"
 
+/* Fonction d'initialisation de la structure t_player */
 int	init_player(t_app *app)
 {
 	int	x;
 	int	y;
 
-	app->player.move_speed = 0.2;
+	app->player.move_speed = 0.3;
 	app->player.rotate_speed = 0.1;
 	x = 0;
 	while (app->file_data.map[x] != 0)
 	{
-		y = 0;
-		while (app->file_data.map[x][y] != 0)
+		y = -1;
+		while (++y >= 0 && app->file_data.map[x][y] != 0)
 		{
 			app->player.x = y + 0.5;
 			app->player.y = x + 0.5;
@@ -23,7 +24,6 @@ int	init_player(t_app *app)
 				return (app->player.dir_x = 0, app->player.dir_y = 1, 0);
 			if (app->file_data.map[x][y] == 'W')
 				return (app->player.dir_x = 0, app->player.dir_y = -1, 0);
-			y++;
 		}
 		x++;
 	}

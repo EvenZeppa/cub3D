@@ -1,32 +1,42 @@
 #include "cub3d.h"
 
-int	parse_map(t_app *app)
+/* Fonction qui cherche et renvoie l'index du debut de la map dans le fichier */
+static int	find_map_start(t_app *app)
 {
-	int		start = -1;
-	int		total_lines = app->file_data.lines_count;
-	int		map_lines = 0;
-	int		i;
+	int	total_lines;
+	int	i;
 
-	for (i = 0; i < total_lines; i++)
+	total_lines = app->file_data.lines_count;
+	i = 0;
+	while (i < total_lines)
 	{
 		if (is_map_line(app->file_data.file_data[i]))
-		{
-			start = i;
-			break;
-		}
+			return (i);
+		i++;
 	}
+	return (-1);
+}
 
-	if (start == -1)
-		return (1);
-
-	map_lines = total_lines - start;
+/* Alloue la memoire pour stocker la map */
+static int	allocate_map(t_app *app, int map_lines)
+{
 	app->file_data.map = malloc(sizeof(char *) * (map_lines + 1));
 	if (!app->file_data.map)
 		return (1);
+	return (0);
+}
 
-	for (i = 0; i < map_lines; i++)
+/* Fonction qui va copier les lignes du fichier
+	pour les stocker dans la structure app */
+static int	copy_map_lines(t_app *app, int start, int map_lines)
+{
+	int	i;
+
+	i = 0;
+	while (i < map_lines)
 	{
-		app->file_data.map[i] = ft_strldup(app->file_data.file_data[start + i], ft_strlen(app->file_data.file_data[start + i]));
+		app->file_data.map[i] = ft_strldup(app->file_data.file_data[start + i],
+				ft_strlen(app->file_data.file_data[start + i]));
 		if (!app->file_data.map[i])
 		{
 			while (i > 0)
@@ -34,15 +44,29 @@ int	parse_map(t_app *app)
 			free(app->file_data.map);
 			return (1);
 		}
+		i++;
 	}
 	app->file_data.map[map_lines] = NULL;
+	return (0);
+}
 
-	// print la map
-	printf("Map: %d\n", map_lines);
-	for (i = 0; i < map_lines; i++)
-	{
-		printf("%s\n", app->file_data.map[i]);
-	}
+/* Fonction principale pour parser la map */
+int	parse_map(t_app *app)
+{
+	int	start;
+	int	map_lines;
 
+	start = find_map_start(app);
+	if (start == -1)
+		return (1);
+	map_lines = app->file_data.lines_count - start;
+	app->file_data.rows = map_lines;
+	if (allocate_map(app, map_lines))
+		return (1);
+	if (copy_map_lines(app, start, map_lines))
+		return (1);
+	app->file_data.cols = ft_strlen(app->file_data.file_data[start]);
+	if (app->file_data.cols == 0)
+		return (1);
 	return (0);
 }
