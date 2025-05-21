@@ -52,7 +52,7 @@ void	render_scene(t_app *app);
  * @param y Coordonnée verticale du pixel.
  * @return Couleur du pixel (format int RGB).
  */
-int	get_texture_pixel(t_image *tex, int x, int y);
+int		get_texture_pixel(t_image *tex, int x, int y);
 
 /**
  * @brief Sélectionne la texture du mur en fonction de la direction du rayon.
@@ -71,7 +71,7 @@ int	get_texture_pixel(t_image *tex, int x, int y);
  * @return Pointeur vers la texture à utiliser.
  */
 t_image	*choose_wall_texture(t_app *app,
-	int side, double ray_dir_x, double ray_dir_y);
+			int side, double ray_dir_x, double ray_dir_y);
 
 /**
  * @brief Fonction principale pour dessiner la mini-map.

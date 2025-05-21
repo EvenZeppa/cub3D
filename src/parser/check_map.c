@@ -119,7 +119,8 @@ static int	check_map_validity(char **grid,
 /**
  * @brief Libère la mémoire allouée pour une grille de carte.
  *
- * Parcourt chaque ligne du tableau et la libère avant de libérer le tableau lui-même.
+ * Parcourt chaque ligne du tableau et la libère avant de
+ * libérer le tableau lui-même.
  *
  * @param grid Grille allouée dynamiquement.
  * @param rows Nombre de lignes à libérer.
