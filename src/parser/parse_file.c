@@ -123,7 +123,5 @@ int	parse_file(t_app *app, const char *filename)
 	if (parse_map(app))
 		exit_error(app, "parsing map");
 	free_file_data(app);
-	for (int i = 0; i < app->file_data.lines_count; i++)
-		printf("[%d] %s", i, app->file_data.file_data[i]);
 	return (0);
 }
