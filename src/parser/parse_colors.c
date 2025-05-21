@@ -1,6 +1,16 @@
 #include "cub3d.h"
 
-/* Transforme la forme 255,255,255 par la structure t_rgb */
+/**
+ * @brief Parse une chaîne contenant une couleur RGB au format "R,G,B".
+ *
+ * Convertit une chaîne de caractères représentant une couleur RGB en une
+ * structure t_rgb. La chaîne doit contenir trois entiers séparés par des
+ * virgules (ex : "255,200,100"). En cas d'erreur de format, la fonction
+ * appelle exit_error().
+ *
+ * @param line Chaîne contenant les trois composantes RGB.
+ * @return Structure t_rgb contenant les valeurs rouge, vert et bleu.
+ */
 static t_rgb	parse_rgb(char *line)
 {
 	t_rgb	rgb;
@@ -26,6 +36,7 @@ static t_rgb	parse_rgb(char *line)
 	return (rgb);
 }
 
+/* Verifie la validite du rgb donne */
 int	check_rgb(t_rgb rgb)
 {
 	if (rgb.red < 0 || rgb.red > 255 || rgb.green < 0

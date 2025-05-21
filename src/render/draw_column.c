@@ -1,5 +1,16 @@
 #include "cub3d.h"
 
+/**
+ * @brief Dessine un pixel du plafond à la position actuelle.
+ *
+ * Calcule la couleur à partir de la structure RGB du plafond,
+ * puis dessine le pixel sur le framebuffer à la position (x, y)
+ * correspondant à la colonne du rayon.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param ray Pointeur vers les données du rayon en cours de traitement.
+ * @param y Position verticale du pixel à dessiner.
+ */
 static void	draw_ceiling_pixel(t_app *app, t_ray *ray, int y)
 {
 	int	color;
@@ -10,6 +21,17 @@ static void	draw_ceiling_pixel(t_app *app, t_ray *ray, int y)
 	my_mlx_pixel_put(&app->frame, ray->screen_x, y, color);
 }
 
+/**
+ * @brief Dessine un pixel du sol à la position actuelle.
+ *
+ * Calcule la couleur à partir de la structure RGB du sol,
+ * puis dessine le pixel sur le framebuffer à la position (x, y)
+ * correspondant à la colonne du rayon.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param ray Pointeur vers les données du rayon en cours de traitement.
+ * @param y Position verticale du pixel à dessiner.
+ */
 static void	draw_floor_pixel(t_app *app, t_ray *ray, int y)
 {
 	int	color;
@@ -20,6 +42,17 @@ static void	draw_floor_pixel(t_app *app, t_ray *ray, int y)
 	my_mlx_pixel_put(&app->frame, ray->screen_x, y, color);
 }
 
+/**
+ * @brief Dessine un pixel du mur texturé à la position actuelle.
+ *
+ * Sélectionne la texture murale appropriée selon la direction du rayon
+ * et la face touchée. Calcule la coordonnée x de texture (`tex_x`)
+ * puis la coordonnée y (`tex_y`) à l’aide d’un rapport de projection.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @param ray Pointeur vers les données du rayon.
+ * @param y Position verticale du pixel à dessiner.
+ */
 static void	draw_wall_pixel(t_app *app, t_ray *ray, int y)
 {
 	t_image	*tex;

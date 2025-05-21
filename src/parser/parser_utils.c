@@ -1,18 +1,15 @@
 #include "cub3d.h"
 
-/* Retourne 1 si le caractere est bien celui du personnage */
 int	is_player_char(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-/* Retourne 1 si le caractere est bien celui de la map */
 int	is_valid_map_char(char c)
 {
 	return (c == '0' || c == '1' || is_player_char(c) || c == ' ');
 }
 
-/* Retourne 1 si la ligne est bien celle de la map */
 int	is_map_line(const char *line)
 {
 	int	i;
@@ -29,7 +26,6 @@ int	is_map_line(const char *line)
 	return (1);
 }
 
-/* Calcule et stocke dans cols_rows les dimensions de la map */
 void	calculate_map_dimensions(char **map, t_cols_rows *cols_rows)
 {
 	int	rows;

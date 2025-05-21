@@ -1,6 +1,5 @@
 #include "cub3d.h"
 
-/* Fonction qui avance le joueur */
 void	move_forward(t_app *app)
 {
 	double	next_x;
@@ -28,7 +27,6 @@ void	move_forward(t_app *app)
 		app->player.y = next_y;
 }
 
-/* Fonction qui recule le joueur */
 void	move_backward(t_app *app)
 {
 	double	next_x;
@@ -56,7 +54,6 @@ void	move_backward(t_app *app)
 		app->player.y = next_y;
 }
 
-/* Fonction qui déplace le joueur à droite */
 void	move_right(t_app *app)
 {
 	double	next_x;
@@ -84,7 +81,6 @@ void	move_right(t_app *app)
 		app->player.y = next_y;
 }
 
-/* Fonction qui déplace le joueur à gauche */
 void	move_left(t_app *app)
 {
 	double	next_x;
