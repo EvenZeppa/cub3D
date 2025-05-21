@@ -6,9 +6,9 @@ int	get_texture_pixel(t_image *tex, int x, int y)
 	int		*pixels;
 
 	if (!tex || !tex->addr)
-		return (0xFFFFFF);
+		return (0x000000);
 	if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
-		return (0xFF00FF);
+		return (0x000000);
 	pixel_line = tex->addr + y * tex->size_line;
 	pixels = (int *)pixel_line;
 	return (pixels[x]);
