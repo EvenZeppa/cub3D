@@ -50,7 +50,8 @@ static int	read_file_lines(t_app *app, int fd, int capacity)
 		if (i >= capacity)
 		{
 			capacity *= 2;
-			temp = realloc(app->file_data.file_data, sizeof(char *) * capacity);
+			temp = ft_realloc(app->file_data.file_data,
+					sizeof(char *) * (capacity / 2), sizeof(char *) * capacity);
 			if (!temp)
 				return (close(fd), 1);
 			app->file_data.file_data = temp;

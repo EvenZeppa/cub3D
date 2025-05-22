@@ -29,8 +29,8 @@ static char	**create_rectangular_grid(char **map, t_cols_rows cols_rows)
 		grid[i] = malloc(cols + 1);
 		if (!grid[i])
 			return (NULL);
-		memset(grid[i], ' ', cols);
-		memcpy(grid[i], map[i], strlen(map[i]));
+		ft_memset(grid[i], ' ', cols);
+		ft_memcpy(grid[i], map[i], strlen(map[i]));
 		grid[i][cols] = '\0';
 		i++;
 	}
