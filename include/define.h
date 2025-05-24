@@ -48,9 +48,4 @@
 # define MINIMAP_FLOOR_COLOR 0x444444
 # define MINIMAP_PLAYER_COLOR 0xFF0000
 
-# define UP 1
-# define RIGHT 2
-# define DOWN 3
-# define LEFT 4
-
 #endif

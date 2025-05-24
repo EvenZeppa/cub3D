@@ -64,11 +64,12 @@ static int	copy_map_lines(t_app *app, int start, int map_lines)
 	while (i < map_lines)
 	{
 		if (i == map_lines - 1)
-			has_nl = ft_strchr(app->file_data.file_data[start + i], '\n') == NULL;
+			has_nl = ft_strchr(app->file_data.file_data[start + i], '\n')
+				== NULL;
 		else
 			has_nl = 0;
 		app->file_data.map[i] = ft_strldup(app->file_data.file_data[start + i],
-			ft_strlen(app->file_data.file_data[start + i]) + has_nl);
+				ft_strlen(app->file_data.file_data[start + i]) + has_nl);
 		if (!app->file_data.map[i])
 		{
 			while (i > 0)
@@ -86,7 +87,7 @@ int	parse_map(t_app *app)
 {
 	int	start;
 	int	map_lines;
-	
+
 	start = find_map_start(app);
 	if (start == -1)
 		return (1);

@@ -65,8 +65,6 @@ int		get_map_height(char **map);
  */
 double	get_player_angle(t_app *app);
 
-char	*get_formatted_line(const char *line);
-
 /**
  * @brief Dessine un pixel sur une image à une position donnée.
  *
@@ -80,5 +78,19 @@ char	*get_formatted_line(const char *line);
  * @param color Couleur au format entier (0xRRGGBB).
  */
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color);
+
+/**
+ * @brief Formate une ligne de texte selon des règles spécifiques.
+ *
+ * Cette fonction prend une chaîne de caractères en entrée et retourne
+ * une nouvelle chaîne formatée selon les besoins de l'application
+ * (par exemple, suppression des espaces superflus, gestion des tabulations,
+ * ou normalisation de la casse). La chaîne retournée doit être libérée
+ * par l'appelant.
+ *
+ * @param line Chaîne de caractères à formater.
+ * @return Nouvelle chaîne formatée (à libérer), ou NULL en cas d'erreur.
+ */
+char	*get_formatted_line(const char *line);
 
 #endif

@@ -11,7 +11,7 @@ int	is_rgb_line_valid(char *line)
 	{
 		if (line[i] == ',')
 			comma_count++;
-		else if (!isdigit(line[i]))
+		else if (!isdigit(line[i]) && line[i] != ' ')
 			return (0);
 		i++;
 	}
@@ -70,20 +70,24 @@ int	parse_colors(t_app *app)
 {
 	int		i;
 	char	*line;
+	int		count;
 
 	i = 0;
+	count = 0;
 	while (i < find_map_start(app))
 	{
 		line = get_formatted_line(app->file_data.file_data[i]);
-		if (ft_strnstr(line, "C ", 2))
+		if (ft_strnstr(line, "C ", 2) && ++count)
 			app->file_data.ceiling = parse_rgb(line + 2);
-		else if (ft_strnstr(line, "F ", 2))
+		else if (ft_strnstr(line, "F ", 2) && ++count)
 			app->file_data.floor = parse_rgb(line + 2);
+		free(line);
 		i++;
 	}
-	if (check_rgb(app->file_data.ceiling) || check_rgb(app->file_data.floor))
+	if (check_rgb(app->file_data.ceiling) || check_rgb(app->file_data.floor)
+		|| count != 2)
 	{
-		exit_error(app, "Error\n");
+		exit_error(app, "Invalid colors in file");
 		return (1);
 	}
 	return (0);

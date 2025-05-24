@@ -4,8 +4,13 @@
 # include "cub3d.h"
 
 /**
- * @brief Fonction principale de parsing du fichier de configuration.
+ * @brief Vérifie si la fin de la carte est correcte.
  *
+ * Cette fonction s'assure que la carte ne contient pas de lignes invalides
+ * ou vides après la dernière ligne de la carte. Elle retourne 1 si la fin
+ * de la carte est correcte, 0 sinon.
+ *
+ * @param map Tableau de chaînes représentant la carte.
  * Gère la lecture complète du fichier, le parsing des textures, couleurs,
  * et de la carte, puis libère les données de fichier.
  *
@@ -117,7 +122,55 @@ int		is_map_line(const char *line);
  */
 void	calculate_map_dimensions(char **map, t_cols_rows *cols_rows);
 
-int	is_ending_map_good(char **map);
-int	find_map_start(t_app *app);
+/**
+ * @brief Vérifie si la fin de la carte est correcte.
+ *
+ * Parcourt les lignes après la carte pour s'assurer 
+ * qu'il n'y a pas de lignes invalides ou vides.
+ *
+ * @param map Tableau de chaînes représentant la carte.
+ * @return 1 si la fin est correcte, 0 sinon.
+ */
+int		is_ending_map_good(char **map);
+
+/**
+ * @brief Trouve l'index de début de la carte dans le fichier.
+ *
+ * Parcourt les lignes du fichier pour trouver la première ligne de la carte.
+ *
+ * @param app Pointeur vers la structure principale de l'application.
+ * @return Index de la première ligne de la carte, ou -1 si non trouvée.
+ */
+int		find_map_start(t_app *app);
+
+/**
+ * @brief Libère la mémoire allouée pour une grille de chaînes.
+ *
+ * @param grid Tableau de chaînes à libérer.
+ * @param rows Nombre de lignes à libérer.
+ */
+void	free_grid(char **grid, int rows);
+
+/**
+ * @brief Crée une grille rectangulaire à partir de la carte.
+ *
+ * Alloue et remplit une nouvelle grille où chaque ligne a la même longueur.
+ *
+ * @param map Tableau de chaînes représentant la carte.
+ * @param cols_rows Dimensions de la grille à créer.
+ * @return Grille rectangulaire nouvellement créée.
+ */
+char	**create_rectangular_grid(char **map, t_cols_rows cols_rows);
+
+/**
+ * @brief Vérifie que les espaces dans la grille sont correctement entourés.
+ *
+ * S'assure que chaque espace (' ') est entouré de murs ou d'autres espaces.
+ *
+ * @param grid Grille rectangulaire de la carte.
+ * @param cols_rows Dimensions de la grille.
+ * @return 1 si les espaces sont corrects, 0 sinon.
+ */
+int		check_spaces(char **grid, t_cols_rows cols_rows);
 
 #endif

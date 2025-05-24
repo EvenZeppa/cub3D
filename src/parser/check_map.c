@@ -9,7 +9,7 @@
  * @param grid Grille allouée dynamiquement.
  * @param rows Nombre de lignes à libérer.
  */
-static void	free_grid(char **grid, int rows)
+void	free_grid(char **grid, int rows)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ static void	free_grid(char **grid, int rows)
  * @param cols_rows Dimensions (colonnes et lignes) de la grille finale.
  * @return Grille rectangulaire allouée dynamiquement ou NULL en cas d’échec.
  */
-static char	**create_rectangular_grid(char **map, t_cols_rows cols_rows)
+char	**create_rectangular_grid(char **map, t_cols_rows cols_rows)
 {
 	int		rows;
 	int		cols;
@@ -135,65 +135,6 @@ static int	check_map_validity(char **grid,
 				return (1);
 		}
 	}
-	return (0);
-}
-
-static void mark_outside(char **grid, int x, int y, t_cols_rows dim)
-{
-	if (x < 0 || x >= dim.rows || y < 0 || y >= dim.cols)
-		return;
-	if (grid[x][y] != ' ')
-		return;
-	if (grid[x][y] == 'F')
-		return;
-	grid[x][y] = 'F';
-	mark_outside(grid, x + 1, y, dim);
-	mark_outside(grid, x - 1, y, dim);
-	mark_outside(grid, x, y + 1, dim);
-	mark_outside(grid, x, y - 1, dim);
-}
-
-char **tag_outside_area(char **grid, t_cols_rows dim)
-{
-	char **copy = create_rectangular_grid(grid, dim);
-	if (!copy)
-		return (NULL);
-	int i;
-	for (i = 0; i < dim.rows; ++i)
-	{
-		mark_outside(copy, i, 0, dim);
-		mark_outside(copy, i, dim.cols - 1, dim);
-	}
-	for (i = 0; i < dim.cols; ++i)
-	{
-		mark_outside(copy, 0, i, dim);
-		mark_outside(copy, dim.rows - 1, i, dim);
-	}
-	return copy;
-}
-
-int is_inside_border(char **marked, int x, int y)
-{
-	return (marked[x][y] != 'F');
-}
-
-int check_spaces(char **grid, t_cols_rows cols_rows)
-{
-	char **marked = tag_outside_area(grid, cols_rows);
-	if (!marked)
-		return (1);
-	for (int i = 0; i < cols_rows.rows; ++i)
-	{
-		for (int j = 0; j < cols_rows.cols; ++j)
-		{
-			if (grid[i][j] == ' ' && is_inside_border(marked, i, j))
-			{
-				free_grid(marked, cols_rows.rows);
-				return (1);
-			}
-		}
-	}
-	free_grid(marked, cols_rows.rows);
 	return (0);
 }
 
