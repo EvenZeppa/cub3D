@@ -58,17 +58,17 @@ static int	allocate_map(t_app *app, int map_lines)
 static int	copy_map_lines(t_app *app, int start, int map_lines)
 {
 	int	i;
-	int	is_end;
+	int	has_nl;
 
 	i = 0;
 	while (i < map_lines)
 	{
 		if (i == map_lines - 1)
-			is_end = 1;
+			has_nl = ft_strchr(app->file_data.file_data[start + i], '\n') == NULL;
 		else
-			is_end = 0;
+			has_nl = 0;
 		app->file_data.map[i] = ft_strldup(app->file_data.file_data[start + i],
-			ft_strlen(app->file_data.file_data[start + i]) + is_end);
+			ft_strlen(app->file_data.file_data[start + i]) + has_nl);
 		if (!app->file_data.map[i])
 		{
 			while (i > 0)
