@@ -122,7 +122,7 @@ static int	check_map_validity(char **grid,
 		while (++j < cols_rows.cols)
 		{
 			c = grid[i][j];
-			if (!is_valid_map_char(c))
+			if (!is_valid_map_char(c) && c != '\n')
 				return (1);
 			if (is_player_char(c))
 			{
@@ -138,28 +138,62 @@ static int	check_map_validity(char **grid,
 	return (0);
 }
 
-
-
-int	check_map_inbound_spaces(char **grid, t_cols_rows cols_rows)
+static void mark_outside(char **grid, int x, int y, t_cols_rows dim)
 {
-	int	i;
-	int	j;
+	if (x < 0 || x >= dim.rows || y < 0 || y >= dim.cols)
+		return;
+	if (grid[x][y] != ' ')
+		return;
+	if (grid[x][y] == 'F')
+		return;
+	grid[x][y] = 'F';
+	mark_outside(grid, x + 1, y, dim);
+	mark_outside(grid, x - 1, y, dim);
+	mark_outside(grid, x, y + 1, dim);
+	mark_outside(grid, x, y - 1, dim);
+}
 
-	i = 0;
-	while (i < cols_rows.rows)
+char **tag_outside_area(char **grid, t_cols_rows dim)
+{
+	char **copy = create_rectangular_grid(grid, dim);
+	if (!copy)
+		return (NULL);
+	int i;
+	for (i = 0; i < dim.rows; ++i)
 	{
-		j = 0;
-		while (j < cols_rows.cols)
-		{
-			if (grid[i][j] == ' ')
-			{
-				if (!check_surrounding_cells(grid, i, j, cols_rows))
-					return (1);
-			}
-			j++;
-		}
-		i++;
+		mark_outside(copy, i, 0, dim);
+		mark_outside(copy, i, dim.cols - 1, dim);
 	}
+	for (i = 0; i < dim.cols; ++i)
+	{
+		mark_outside(copy, 0, i, dim);
+		mark_outside(copy, dim.rows - 1, i, dim);
+	}
+	return copy;
+}
+
+int is_inside_border(char **marked, int x, int y)
+{
+	return (marked[x][y] != 'F');
+}
+
+int check_spaces(char **grid, t_cols_rows cols_rows)
+{
+	char **marked = tag_outside_area(grid, cols_rows);
+	if (!marked)
+		return (1);
+	for (int i = 0; i < cols_rows.rows; ++i)
+	{
+		for (int j = 0; j < cols_rows.cols; ++j)
+		{
+			if (grid[i][j] == ' ' && is_inside_border(marked, i, j))
+			{
+				free_grid(marked, cols_rows.rows);
+				return (1);
+			}
+		}
+	}
+	free_grid(marked, cols_rows.rows);
 	return (0);
 }
 
@@ -177,7 +211,7 @@ int	check_map(t_app *app)
 	if (!grid)
 		return (-1);
 	if (check_map_validity(grid, cols_rows, &player_count) != 0
-		|| check_map_inbound_spaces(grid, cols_rows) != 0)
+		|| check_spaces(grid, cols_rows) != 0)
 	{
 		free_grid(grid, cols_rows.rows);
 		return (-1);
