@@ -72,8 +72,8 @@ static void	draw_wall_pixel(t_app *app, t_ray *ray, int y)
 	if (wall_x > 1.0)
 		wall_x = 1.0;
 	ray->tex_x = (int)(wall_x * tex->width);
-	if ((ray->side == 0 && ray->dir_x > 0)
-		|| (ray->side == 1 && ray->dir_y < 0))
+	if ((ray->side == 0 && ray->dir_x < 0)
+		|| (ray->side == 1 && ray->dir_y > 0))
 		ray->tex_x = tex->width - ray->tex_x - 1;
 	d = y * 256 - WIN_HEIGHT * 128 + ray->wall_height * 128;
 	ray->tex_y = ((d * tex->height) / ray->wall_height) / 256;
