@@ -43,7 +43,6 @@ static t_rgb	parse_rgb(char *line)
 	rgb.red = ft_atoi(split[0]);
 	rgb.green = ft_atoi(split[1]);
 	rgb.blue = ft_atoi(split[2]);
-	printf("Parsed RGB: %d, %d, %d\n", rgb.red, rgb.green, rgb.blue);
 	tmp = split;
 	while (*tmp)
 	{
