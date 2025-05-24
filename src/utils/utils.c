@@ -40,47 +40,39 @@ double	get_player_angle(t_app *app)
 
 char	*get_formatted_line(const char *line)
 {
-    int i = 0, j = 0;
-    int len = strlen(line);
-    char *result;
-    int in_space = 0;
+	int i = 0, j = 0;
+	int len = strlen(line);
+	char *result;
+	int in_space = 0;
 
-    // Ignore \n à la fin
-    if (len > 0 && line[len - 1] == '\n')
-        len--;
-
-    // Skip leading spaces
-    while (i < len && isspace((unsigned char)line[i]))
-        i++;
-
-    result = malloc(len + 1); // taille max possible, libérable
-    if (!result)
-        return NULL;
-
-    while (i < len)
-    {
-        if (isspace((unsigned char)line[i]))
-        {
-            if (!in_space) // ajoute un seul espace
-            {
-                result[j++] = ' ';
-                in_space = 1;
-            }
-        }
-        else
-        {
-            result[j++] = line[i];
-            in_space = 0;
-        }
-        i++;
-    }
-
-    // Supprimer trailing space final
-    if (j > 0 && result[j - 1] == ' ')
-        j--;
-
-    result[j] = '\0';
-    return result;
+	if (len > 0 && line[len - 1] == '\n')
+		len--;
+	while (i < len && isspace((unsigned char)line[i]))
+		i++;
+	result = malloc(len + 1);
+	if (!result)
+		return NULL;
+	while (i < len)
+	{
+		if (isspace((unsigned char)line[i]))
+		{
+			if (!in_space)
+			{
+				result[j++] = ' ';
+				in_space = 1;
+			}
+		}
+		else
+		{
+			result[j++] = line[i];
+			in_space = 0;
+		}
+		i++;
+	}
+	if (j > 0 && result[j - 1] == ' ')
+		j--;
+	result[j] = '\0';
+	return result;
 }
 
 void	my_mlx_pixel_put(t_image *img, int x, int y, int color)

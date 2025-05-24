@@ -95,10 +95,10 @@ typedef struct s_file_data
 {
 	char		**file_data;
 	int			lines_count;
-	void		*texture_north;
-	void		*texture_south;
-	void		*texture_east;
-	void		*texture_west;
+	char		*texture_north;
+	char		*texture_south;
+	char		*texture_east;
+	char		*texture_west;
 	t_rgb		ceiling;
 	t_rgb		floor;
 	char		**map;

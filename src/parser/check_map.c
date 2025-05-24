@@ -1,6 +1,28 @@
 #include "cub3d.h"
 
 /**
+ * @brief Libère la mémoire allouée pour une grille de carte.
+ *
+ * Parcourt chaque ligne du tableau et la libère avant de
+ * libérer le tableau lui-même.
+ *
+ * @param grid Grille allouée dynamiquement.
+ * @param rows Nombre de lignes à libérer.
+ */
+static void	free_grid(char **grid, int rows)
+{
+	int	i;
+
+	i = 0;
+	while (i < rows)
+	{
+		free(grid[i]);
+		i++;
+	}
+	free(grid);
+}
+
+/**
  * @brief Crée une grille rectangulaire à partir de la carte originale.
  *
  * Cette fonction prend une carte de taille variable (lignes de longueurs
@@ -27,8 +49,8 @@ static char	**create_rectangular_grid(char **map, t_cols_rows cols_rows)
 	while (i < rows)
 	{
 		grid[i] = malloc(cols + 1);
-		if (!grid[i])
-			return (NULL);
+		if (!grid[i] || (!map[i][0] && !is_ending_map_good(&map[i])))
+			return (free_grid(grid, i), NULL);
 		ft_memset(grid[i], ' ', cols);
 		ft_memcpy(grid[i], map[i], strlen(map[i]));
 		grid[i][cols] = '\0';
@@ -116,26 +138,29 @@ static int	check_map_validity(char **grid,
 	return (0);
 }
 
-/**
- * @brief Libère la mémoire allouée pour une grille de carte.
- *
- * Parcourt chaque ligne du tableau et la libère avant de
- * libérer le tableau lui-même.
- *
- * @param grid Grille allouée dynamiquement.
- * @param rows Nombre de lignes à libérer.
- */
-static void	free_grid(char **grid, int rows)
+
+
+int	check_map_inbound_spaces(char **grid, t_cols_rows cols_rows)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (i < rows)
+	while (i < cols_rows.rows)
 	{
-		free(grid[i]);
+		j = 0;
+		while (j < cols_rows.cols)
+		{
+			if (grid[i][j] == ' ')
+			{
+				if (!check_surrounding_cells(grid, i, j, cols_rows))
+					return (1);
+			}
+			j++;
+		}
 		i++;
 	}
-	free(grid);
+	return (0);
 }
 
 int	check_map(t_app *app)
@@ -151,7 +176,8 @@ int	check_map(t_app *app)
 	grid = create_rectangular_grid(map, cols_rows);
 	if (!grid)
 		return (-1);
-	if (check_map_validity(grid, cols_rows, &player_count) != 0)
+	if (check_map_validity(grid, cols_rows, &player_count) != 0
+		|| check_map_inbound_spaces(grid, cols_rows) != 0)
 	{
 		free_grid(grid, cols_rows.rows);
 		return (-1);

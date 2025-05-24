@@ -44,3 +44,17 @@ void	calculate_map_dimensions(char **map, t_cols_rows *cols_rows)
 	cols_rows->rows = rows;
 	cols_rows->cols = cols;
 }
+
+int	is_ending_map_good(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		if (map[i][0] != '\0')
+			return (0);
+		i++;
+	}
+	return (1);
+}

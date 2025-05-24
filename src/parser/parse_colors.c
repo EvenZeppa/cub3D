@@ -4,6 +4,7 @@ int	is_rgb_line_valid(char *line)
 {
 	int	i;
 	int	comma_count;
+
 	i = 0;
 	comma_count = 0;
 	while (line[i])
@@ -35,7 +36,8 @@ static t_rgb	parse_rgb(char *line)
 	char	**tmp;
 
 	split = ft_split(line, ',');
-	if (!split || !split[0] || !split[1] || !split[2] || !is_rgb_line_valid(line))
+	if (!split || !split[0] || !split[1] || !split[2]
+		|| !is_rgb_line_valid(line))
 	{
 		free(split);
 		exit_error(NULL, "Invalid RGB format");
@@ -70,7 +72,7 @@ int	parse_colors(t_app *app)
 	char	*line;
 
 	i = 0;
-	while (i < app->file_data.lines_count)
+	while (i < find_map_start(app))
 	{
 		line = get_formatted_line(app->file_data.file_data[i]);
 		if (ft_strnstr(line, "C ", 2))

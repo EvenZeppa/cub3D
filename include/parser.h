@@ -117,4 +117,7 @@ int		is_map_line(const char *line);
  */
 void	calculate_map_dimensions(char **map, t_cols_rows *cols_rows);
 
+int	is_ending_map_good(char **map);
+int	find_map_start(t_app *app);
+
 #endif

@@ -9,7 +9,7 @@
  * @param app Pointeur vers la structure principale de l'application.
  * @return Index de début de la map, ou -1 si aucune ligne valide n’est trouvée.
  */
-static int	find_map_start(t_app *app)
+int	find_map_start(t_app *app)
 {
 	int	total_lines;
 	int	i;
@@ -58,12 +58,17 @@ static int	allocate_map(t_app *app, int map_lines)
 static int	copy_map_lines(t_app *app, int start, int map_lines)
 {
 	int	i;
+	int	is_end;
 
 	i = 0;
 	while (i < map_lines)
 	{
+		if (i == map_lines - 1)
+			is_end = 1;
+		else
+			is_end = 0;
 		app->file_data.map[i] = ft_strldup(app->file_data.file_data[start + i],
-				ft_strlen(app->file_data.file_data[start + i]));
+			ft_strlen(app->file_data.file_data[start + i]) + is_end);
 		if (!app->file_data.map[i])
 		{
 			while (i > 0)
@@ -81,7 +86,7 @@ int	parse_map(t_app *app)
 {
 	int	start;
 	int	map_lines;
-
+	
 	start = find_map_start(app);
 	if (start == -1)
 		return (1);
