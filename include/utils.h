@@ -65,6 +65,8 @@ int		get_map_height(char **map);
  */
 double	get_player_angle(t_app *app);
 
+char	*get_formatted_line(const char *line);
+
 /**
  * @brief Dessine un pixel sur une image à une position donnée.
  *

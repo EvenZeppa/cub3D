@@ -1,5 +1,22 @@
 #include "cub3d.h"
 
+int	is_rgb_line_valid(char *line)
+{
+	int	i;
+	int	comma_count;
+	i = 0;
+	comma_count = 0;
+	while (line[i])
+	{
+		if (line[i] == ',')
+			comma_count++;
+		else if (!isdigit(line[i]))
+			return (0);
+		i++;
+	}
+	return (comma_count == 2);
+}
+
 /**
  * @brief Parse une chaîne contenant une couleur RGB au format "R,G,B".
  *
@@ -18,7 +35,7 @@ static t_rgb	parse_rgb(char *line)
 	char	**tmp;
 
 	split = ft_split(line, ',');
-	if (!split || !split[0] || !split[1] || !split[2])
+	if (!split || !split[0] || !split[1] || !split[2] || !is_rgb_line_valid(line))
 	{
 		free(split);
 		exit_error(NULL, "Invalid RGB format");
@@ -26,6 +43,7 @@ static t_rgb	parse_rgb(char *line)
 	rgb.red = ft_atoi(split[0]);
 	rgb.green = ft_atoi(split[1]);
 	rgb.blue = ft_atoi(split[2]);
+	printf("Parsed RGB: %d, %d, %d\n", rgb.red, rgb.green, rgb.blue);
 	tmp = split;
 	while (*tmp)
 	{
@@ -49,20 +67,22 @@ int	check_rgb(t_rgb rgb)
 	stocker les couleurs du plafond et du sol */
 int	parse_colors(t_app *app)
 {
-	int	i;
+	int		i;
+	char	*line;
 
 	i = 0;
 	while (i < app->file_data.lines_count)
 	{
-		if (ft_strnstr(app->file_data.file_data[i], "C ", 2))
-			app->file_data.ceiling = parse_rgb(app->file_data.file_data[i] + 2);
-		else if (ft_strnstr(app->file_data.file_data[i], "F ", 2))
-			app->file_data.floor = parse_rgb(app->file_data.file_data[i] + 2);
+		line = get_formatted_line(app->file_data.file_data[i]);
+		if (ft_strnstr(line, "C ", 2))
+			app->file_data.ceiling = parse_rgb(line + 2);
+		else if (ft_strnstr(line, "F ", 2))
+			app->file_data.floor = parse_rgb(line + 2);
 		i++;
 	}
 	if (check_rgb(app->file_data.ceiling) || check_rgb(app->file_data.floor))
 	{
-		exit_error(app, "Invalid RGB values");
+		exit_error(app, "Error\n");
 		return (1);
 	}
 	return (0);
