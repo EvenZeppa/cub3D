@@ -52,7 +52,7 @@ int	is_ending_map_good(char **map)
 	i = 0;
 	while (map[i])
 	{
-		if (map[i][0] != '\0')
+		if (map[i][0] != '\n')
 			return (0);
 		i++;
 	}
