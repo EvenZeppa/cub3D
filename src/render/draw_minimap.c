@@ -26,7 +26,7 @@ static void	draw_tile(t_app *app, t_minimap *mm, int dx, int dy)
 	if (tile_x < 0 || tile_x >= get_map_width(app->file_data.map))
 		return ;
 	tile = app->file_data.map[tile_y][tile_x];
-	if (tile == ' ')
+	if (tile == ' ' || tile == '\0' || tile == '\n')
 		return ;
 	if (tile == '1')
 		color = mm->wall_color;

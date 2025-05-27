@@ -23,7 +23,7 @@ int	get_map_height(char **map)
 	int	i;
 
 	i = 0;
-	while (map[i])
+	while (map[i] && map[i][0] != '\n')
 		i++;
 	return (i);
 }
