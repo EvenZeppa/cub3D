@@ -36,7 +36,7 @@ void	calculate_map_dimensions(char **map, t_cols_rows *cols_rows)
 	cols = 0;
 	while (map[rows])
 	{
-		len = strlen(map[rows]);
+		len = ft_strlen(map[rows]);
 		if (len > cols)
 			cols = len;
 		rows++;

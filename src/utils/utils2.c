@@ -23,10 +23,10 @@ char	*get_formatted_line(const char *line)
 	int		j;
 	char	*result;
 
-	result = malloc(strlen(line) + 1);
+	result = malloc(ft_strlen(line) + 1);
 	if (!result)
 		return (NULL);
-	i = skip_leading_spaces(line, get_trimmed_length(line, strlen(line)));
+	i = skip_leading_spaces(line, get_trimmed_length(line, ft_strlen(line)));
 	j = 0;
 	while (line[i] && line[i] != '\n')
 	{

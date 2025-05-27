@@ -11,13 +11,13 @@ int	is_dup_textures(char **file_data, int lines_count)
 	while (i < lines_count)
 	{
 		line = get_formatted_line(file_data[i]);
-		if (strncmp(line, "NO ", 3) == 0)
+		if (ft_strncmp(line, "NO ", 3) == 0)
 			count++;
-		else if (strncmp(line, "SO ", 3) == 0)
+		else if (ft_strncmp(line, "SO ", 3) == 0)
 			count++;
-		else if (strncmp(line, "EA ", 3) == 0)
+		else if (ft_strncmp(line, "EA ", 3) == 0)
 			count++;
-		else if (strncmp(line, "WE ", 3) == 0)
+		else if (ft_strncmp(line, "WE ", 3) == 0)
 			count++;
 		free(line);
 		i++;
