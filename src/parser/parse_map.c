@@ -63,6 +63,7 @@ static int	copy_map_lines(t_app *app, int start, int map_lines)
 	while (i < map_lines)
 	{
 		app->file_data.map[i] = ft_strdup(app->file_data.file_data[start + i]);
+		printf("Copying line %d: %s\n", i, app->file_data.map[i]);
 		if (!app->file_data.map[i])
 		{
 			while (i > 0)
