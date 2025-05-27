@@ -86,7 +86,7 @@ static int	check_surrounding_cells(char **grid,
 		xy.rows = row + dx[i];
 		xy.cols = col + dy[i];
 		if (xy.rows < 0 || xy.rows >= cols_rows.rows
-			|| xy.cols < 0 || xy.cols >= cols_rows.cols)
+			|| xy.cols < 0 || xy.cols >= cols_rows.cols - 1)
 			return (0);
 		if (grid[xy.rows][xy.cols] == ' ')
 			return (0);

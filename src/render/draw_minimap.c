@@ -12,28 +12,67 @@
  * @param dx Décalage horizontal depuis le centre de la mini-map.
  * @param dy Décalage vertical depuis le centre de la mini-map.
  */
+// static void	draw_tile(t_app *app, t_minimap *mm, int dx, int dy)
+// {
+// 	int		tile_x;
+// 	int		tile_y;
+// 	char	tile;
+// 	int		color;
+
+// 	tile_x = (int)(app->player.x + dx / (double)mm->scale);
+// 	tile_y = (int)(app->player.y + dy / (double)mm->scale);
+// 	if (tile_y < 0 || tile_y >= get_map_height(app->file_data.map))
+// 		return ;
+// 	if (tile_x < 0 || tile_x >= get_map_width(app->file_data.map))
+// 		return ;
+// 	tile = app->file_data.map[tile_y][tile_x];
+// 	if (tile == ' ' || tile == '\0' || tile == '\n')
+// 		return ;
+// 	if (tile == '1')
+// 		color = mm->wall_color;
+// 	else
+// 		color = mm->floor_color;
+// 	my_mlx_pixel_put(&app->frame, mm->center_x + dx, mm->center_y + dy, color);
+// }
+
 static void	draw_tile(t_app *app, t_minimap *mm, int dx, int dy)
 {
 	int		tile_x;
 	int		tile_y;
+	char	*line;
 	char	tile;
 	int		color;
 
 	tile_x = (int)(app->player.x + dx / (double)mm->scale);
 	tile_y = (int)(app->player.y + dy / (double)mm->scale);
+
+	// Vérifie les coordonnées Y dans les limites
 	if (tile_y < 0 || tile_y >= get_map_height(app->file_data.map))
 		return ;
-	if (tile_x < 0 || tile_x >= get_map_width(app->file_data.map))
+
+	line = app->file_data.map[tile_y];
+
+	// Vérifie que la ligne existe
+	if (!line)
 		return ;
-	tile = app->file_data.map[tile_y][tile_x];
+
+	// Vérifie X dans la taille réelle de la ligne
+	if (tile_x < 0 || (size_t)tile_x >= ft_strlen(line))
+		return ;
+
+	tile = line[tile_x];
+
+	// Ignore les espaces ou caractères non pertinents
 	if (tile == ' ' || tile == '\0' || tile == '\n')
 		return ;
-	if (tile == '1')
-		color = mm->wall_color;
-	else
-		color = mm->floor_color;
+
+	// Applique les couleurs en fonction du type
+	color = (tile == '1') ? mm->wall_color : mm->floor_color;
+
+	// Dessine le pixel
 	my_mlx_pixel_put(&app->frame, mm->center_x + dx, mm->center_y + dy, color);
 }
+
 
 /**
  * @brief Dessine le fond de la mini-map et tous les tiles visibles.

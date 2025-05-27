@@ -43,6 +43,49 @@ static int	allocate_map(t_app *app, int map_lines)
 	return (0);
 }
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Fonction pour copier un char** terminé par NULL
+char **copy_string_array(char **src) {
+    if (!src) return NULL;
+
+    // Compter le nombre de chaînes
+    size_t count = 0;
+    while (src[count] != NULL) {
+        count++;
+    }
+
+    // Allouer de la mémoire pour le tableau de pointeurs (y compris le NULL final)
+    char **dest = malloc((count + 1) * sizeof(char *));
+    if (!dest) return NULL;
+
+    // Copier chaque chaîne
+    for (size_t i = 0; i < count; i++) {
+        dest[i] = ft_strdup(src[i]); // strdup alloue et copie la chaîne
+        if (!dest[i]) {
+            // Libérer ce qui a été alloué jusqu'à présent en cas d'erreur
+            for (size_t j = 0; j < i; j++) {
+                free(dest[j]);
+            }
+            free(dest);
+            return NULL;
+        }
+    }
+    dest[count] = NULL; // Terminer par NULL
+
+    return dest;
+}
+
+static int	copy_map_lines(t_app *app, int start, int map_lines)
+{
+	(void)	map_lines;
+
+	app->file_data.map = copy_string_array(app->file_data.file_data + start);
+	return (0);
+}
+
 /**
  * @brief Copie les lignes de la carte depuis les données du fichier.
  *
@@ -55,26 +98,26 @@ static int	allocate_map(t_app *app, int map_lines)
  * @param map_lines Nombre total de lignes à copier.
  * @return 0 si succès, 1 en cas d’erreur d’allocation.
  */
-static int	copy_map_lines(t_app *app, int start, int map_lines)
-{
-	int	i;
+// static int	copy_map_lines(t_app *app, int start, int map_lines)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < map_lines)
-	{
-		app->file_data.map[i] = ft_strdup(app->file_data.file_data[start + i]);
-		if (!app->file_data.map[i])
-		{
-			while (i > 0)
-				free(app->file_data.map[--i]);
-			free(app->file_data.map);
-			return (1);
-		}
-		i++;
-	}
-	app->file_data.map[map_lines] = NULL;
-	return (0);
-}
+// 	i = 0;
+// 	while (i < map_lines)
+// 	{
+// 		app->file_data.map[i] = ft_strdup(app->file_data.file_data[start + i]);
+// 		if (!app->file_data.map[i])
+// 		{
+// 			while (i > 0)
+// 				free(app->file_data.map[--i]);
+// 			free(app->file_data.map);
+// 			return (1);
+// 		}
+// 		i++;
+// 	}
+// 	app->file_data.map[map_lines] = NULL;
+// 	return (0);
+// }
 
 int	parse_map(t_app *app)
 {
