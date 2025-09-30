@@ -84,11 +84,9 @@ int	parse_colors(t_app *app)
 		free(line);
 		i++;
 	}
-	if (check_rgb(app->file_data.ceiling) || check_rgb(app->file_data.floor)
+	if (app->file_data.ceiling.red == -1 || check_rgb(app->file_data.ceiling)
+		|| app->file_data.floor.red == -1 || check_rgb(app->file_data.floor)
 		|| count != 2)
-	{
-		exit_error(app, "Invalid colors in file");
 		return (1);
-	}
 	return (0);
 }

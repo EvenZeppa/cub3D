@@ -1,12 +1,12 @@
 import subprocess
 import os
 
-cub_dir = "assets/map/errors"
+cub_dir = "assets/map/valids"  # Dossier des maps valides
 cub_files = [f for f in os.listdir(cub_dir) if not f.startswith(".")]
 
 EXECUTABLE = "./cub3D"
 
-print("=== Tests d'erreurs cub3D avec Valgrind (hors erreurs liées à MLX) ===\n")
+print("=== Tests des maps valides cub3D avec Valgrind (hors erreurs liées à MLX) ===\n")
 
 def is_mlx_leak(output: str) -> bool:
     """Retourne True si toutes les fuites sont liées à la MLX."""
@@ -14,9 +14,10 @@ def is_mlx_leak(output: str) -> bool:
     lines = output.lower().splitlines()
     leaks = [line for line in lines if "definitely lost" in line or "indirectly lost" in line]
 
-    if not leaks:
+    if not leaks:  # aucune fuite → OK
         return False
 
+    # vérifier que toutes les fuites viennent de MLX
     for line in leaks:
         if not any(keyword in line for keyword in mlx_keywords):
             return False
@@ -26,8 +27,7 @@ for file in cub_files:
     path = os.path.join(cub_dir, file)
     try:
         result = subprocess.run(
-            # ["valgrind", "--leak-check=full", "--error-exitcode=123", EXECUTABLE, path],
-            [EXECUTABLE, path],
+            ["valgrind", "--leak-check=full", "--error-exitcode=123", EXECUTABLE, path],
             capture_output=True,
             text=True,
             timeout=10
@@ -40,19 +40,15 @@ for file in cub_files:
         valgrind_failed = error_code == 123
         valgrind_leak_only_mlx = is_mlx_leak(stderr)
 
-        if error_code == -11:  # Segmentation fault
-            print(f"\033[91m💥 {file} → SEGFAULT détecté !\033[0m")  # rouge
-            print(f"   ↳ stderr: {stderr.strip()}")
-            continue
+        # Pour une map valide : succès attendu
+        success = (
+            error_code == 0 or valgrind_leak_only_mlx
+        ) and "error" not in stdout.lower() and "error" not in stderr.lower()
 
-        error_detected = (
-            error_code != 0 and not valgrind_leak_only_mlx
-        ) or "error" in stdout.lower() or "error" in stderr.lower()
-
-        if error_detected:
-            print(f"✅ {file} → erreur bien détectée")
+        if success:
+            print(f"✅ {file} → exécutée correctement")
         else:
-            print(f"❌ {file} → aucune erreur détectée (ATTENDUE)")
+            print(f"❌ {file} → problème détecté (NON ATTENDU)")
             print(f"   ↳ stdout: {stdout.strip()}")
             print(f"   ↳ stderr: {stderr.strip()}")
 

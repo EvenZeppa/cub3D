@@ -48,8 +48,7 @@ char	*get_formatted_line(const char *line)
 /* Sort du programme en y affichant une erreur */
 int	exit_error(t_app *app, char *message)
 {
-	(void) message;
-	printf("Error\n");
+	printf("Error\n%s\n", message);
 	free_game(app);
 	exit(1);
 }

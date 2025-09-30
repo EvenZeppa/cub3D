@@ -1,5 +1,25 @@
 #include "cub3d.h"
 
+void	init_rgbs(t_app *app)
+{
+	app->file_data.ceiling.red = -1;
+	app->file_data.ceiling.green = -1;
+	app->file_data.ceiling.blue = -1;
+	app->file_data.floor.red = -1;
+	app->file_data.floor.green = -1;
+	app->file_data.floor.blue = -1;
+}
+
+void	init_file_data(t_app *app)
+{
+	app->file_data.file_data = NULL;
+	app->file_data.texture_north = NULL;
+	app->file_data.texture_south = NULL;
+	app->file_data.texture_east = NULL;
+	app->file_data.texture_west = NULL;
+	app->file_data.map = NULL;
+}
+
 int	init_game(t_app *app, char *map_path)
 {
 	app->mlx = mlx_init();
@@ -16,6 +36,8 @@ int	init_game(t_app *app, char *map_path)
 	app->textures[1].img = NULL;
 	app->textures[2].img = NULL;
 	app->textures[3].img = NULL;
+	init_rgbs(app);
+	init_file_data(app);
 	if (parse_file(app, map_path))
 		exit_error(app, "parsing");
 	if (init_map(app))

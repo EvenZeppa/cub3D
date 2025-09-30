@@ -1,40 +1,10 @@
 #include "cub3d.h"
 
 /**
- * @brief Dessine un seul tile (mur ou sol) de la mini-map.
- *
  * Calcule les coordonnées du tile sur la carte en fonction du décalage
  * et de l'échelle. Ignore les coordonnées hors limites ou les espaces
  * vides. Applique la couleur selon le type de tile (mur ou sol).
- *
- * @param app Pointeur vers la structure principale de l'application.
- * @param mm Pointeur vers la structure de la mini-map.
- * @param dx Décalage horizontal depuis le centre de la mini-map.
- * @param dy Décalage vertical depuis le centre de la mini-map.
  */
-// static void	draw_tile(t_app *app, t_minimap *mm, int dx, int dy)
-// {
-// 	int		tile_x;
-// 	int		tile_y;
-// 	char	tile;
-// 	int		color;
-
-// 	tile_x = (int)(app->player.x + dx / (double)mm->scale);
-// 	tile_y = (int)(app->player.y + dy / (double)mm->scale);
-// 	if (tile_y < 0 || tile_y >= get_map_height(app->file_data.map))
-// 		return ;
-// 	if (tile_x < 0 || tile_x >= get_map_width(app->file_data.map))
-// 		return ;
-// 	tile = app->file_data.map[tile_y][tile_x];
-// 	if (tile == ' ' || tile == '\0' || tile == '\n')
-// 		return ;
-// 	if (tile == '1')
-// 		color = mm->wall_color;
-// 	else
-// 		color = mm->floor_color;
-// 	my_mlx_pixel_put(&app->frame, mm->center_x + dx, mm->center_y + dy, color);
-// }
-
 static void	draw_tile(t_app *app, t_minimap *mm, int dx, int dy)
 {
 	int		tile_x;
@@ -45,44 +15,27 @@ static void	draw_tile(t_app *app, t_minimap *mm, int dx, int dy)
 
 	tile_x = (int)(app->player.x + dx / (double)mm->scale);
 	tile_y = (int)(app->player.y + dy / (double)mm->scale);
-
-	// Vérifie les coordonnées Y dans les limites
 	if (tile_y < 0 || tile_y >= get_map_height(app->file_data.map))
 		return ;
-
 	line = app->file_data.map[tile_y];
-
-	// Vérifie que la ligne existe
 	if (!line)
 		return ;
-
-	// Vérifie X dans la taille réelle de la ligne
 	if (tile_x < 0 || (size_t)tile_x >= ft_strlen(line))
 		return ;
-
 	tile = line[tile_x];
-
-	// Ignore les espaces ou caractères non pertinents
 	if (tile == ' ' || tile == '\0' || tile == '\n')
 		return ;
-
-	// Applique les couleurs en fonction du type
-	color = (tile == '1') ? mm->wall_color : mm->floor_color;
-
-	// Dessine le pixel
+	if (tile == '1')
+		color = mm->wall_color;
+	else
+		color = mm->floor_color;
 	my_mlx_pixel_put(&app->frame, mm->center_x + dx, mm->center_y + dy, color);
 }
 
-
 /**
- * @brief Dessine le fond de la mini-map et tous les tiles visibles.
- *
  * Parcourt tous les pixels dans un cercle autour du joueur. Pour chaque
  * pixel, dessine la couleur de fond, puis appelle `draw_tile()` pour
  * dessiner le contenu de la carte (murs/sols).
- *
- * @param app Pointeur vers la structure principale de l'application.
- * @param mm Pointeur vers la structure de la mini-map.
  */
 static void	draw_minimap_background(t_app *app, t_minimap *mm)
 {
@@ -111,13 +64,8 @@ static void	draw_minimap_background(t_app *app, t_minimap *mm)
 }
 
 /**
- * @brief Dessine le joueur comme un cercle au centre de la mini-map.
- *
  * Dessine un cercle rempli autour du centre défini dans `mm`, en utilisant
  * `player_radius` et `player_color` pour représenter le joueur.
- *
- * @param frame Framebuffer cible (frame principal de l'application).
- * @param mm Structure de la mini-map contenant les infos du joueur.
  */
 static void	draw_player(t_image *frame, t_minimap mm)
 {
