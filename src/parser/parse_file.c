@@ -89,28 +89,6 @@ static int	prepare_file_data(t_app *app, const char *filename)
 	return (0);
 }
 
-/**
- * @brief Libère la mémoire allouée pour les lignes du fichier.
- *
- * Parcourt toutes les lignes et les libère, puis libère le tableau lui-même.
- *
- * @param app Pointeur vers la structure principale de l'application.
- */
-static void	free_file_data(t_app *app)
-{
-	int	i;
-
-	i = 0;
-	while (i < app->file_data.lines_count)
-	{
-		free(app->file_data.file_data[i]);
-		i++;
-	}
-	free(app->file_data.file_data);
-	app->file_data.file_data = NULL;
-	app->file_data.lines_count = 0;
-}
-
 int	parse_file(t_app *app, const char *filename)
 {
 	if (prepare_file_data(app, filename))
@@ -123,6 +101,5 @@ int	parse_file(t_app *app, const char *filename)
 		exit_error(app, "parsing colors");
 	if (parse_map(app))
 		exit_error(app, "parsing map");
-	free_file_data(app);
 	return (0);
 }

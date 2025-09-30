@@ -25,24 +25,6 @@ int	find_map_start(t_app *app)
 	return (-1);
 }
 
-/**
- * @brief Alloue la mémoire pour stocker les lignes de la carte.
- *
- * Alloue un tableau de chaînes qui contiendra toutes les lignes
- * représentant la carte dans le fichier de configuration.
- *
- * @param app Pointeur vers la structure principale de l'application.
- * @param map_lines Nombre de lignes de la carte à allouer.
- * @return 0 si succès, 1 en cas d'échec d’allocation.
- */
-static int	allocate_map(t_app *app, int map_lines)
-{
-	app->file_data.map = malloc(sizeof(char *) * (map_lines + 1));
-	if (!app->file_data.map)
-		return (1);
-	return (0);
-}
-
 // Fonction pour copier un char** terminé par NULL
 char	**copy_string_array(char **src)
 {
@@ -93,8 +75,6 @@ int	parse_map(t_app *app)
 		return (1);
 	map_lines = app->file_data.lines_count - start;
 	app->file_data.rows = map_lines;
-	if (allocate_map(app, map_lines))
-		return (1);
 	if (copy_map_lines(app, start, map_lines))
 		return (1);
 	app->file_data.cols = ft_strlen(app->file_data.file_data[start]);
