@@ -3,8 +3,19 @@ SO textures/test/south.xpm
 WE textures/test/west.xpm
 EA textures/test/east.xpm
 
-F 20,20,-20
+F 20,20,20
 C 200,200,200
+
+
+"F 255"                // une seule valeur
+"F ,"                  // seulement une virgule
+"F 255,255,255,255"    // trop de valeurs
+"F 255,,255"           // double virgule
+"F ,255,255"           // commence par une virgule
+"F 255,255,"           // finit par une virgule
+"F 255 255 255"        // espaces au lieu de virgules
+"F 255-255-255"        // mauvais séparateur
+
 
 11111
 10001

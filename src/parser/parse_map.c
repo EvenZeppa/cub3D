@@ -57,11 +57,8 @@ char	**copy_string_array(char **src)
 static int	copy_map_lines(t_app *app, int start, int map_lines)
 {
 	(void) map_lines;
-	if (!(app->file_data.file_data + start))
-		app->file_data.map = NULL;
-	else
-		app->file_data.map
-			= copy_string_array(app->file_data.file_data + start);
+	app->file_data.map
+		= copy_string_array(app->file_data.file_data + start);
 	return (0);
 }
 

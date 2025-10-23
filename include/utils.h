@@ -93,4 +93,14 @@ void	my_mlx_pixel_put(t_image *img, int x, int y, int color);
  */
 char	*get_formatted_line(const char *line);
 
+/**
+ * @brief Libère un tableau de chaînes de caractères.
+ *
+ * Parcourt le tableau jusqu'à NULL, libère chaque chaîne,
+ * puis libère le tableau lui-même.
+ *
+ * @param split Tableau de chaînes à libérer.
+ */
+void	free_split(char **split);
+
 #endif

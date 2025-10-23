@@ -17,7 +17,7 @@ static int	initialize_file_data(t_app *app,
 	int	capacity;
 
 	capacity = 16;
-	app->file_data.file_data = malloc(sizeof(char *) * capacity);
+	app->file_data.file_data = malloc(sizeof(char *) * (capacity + 1));
 	if (!app->file_data.file_data)
 		return (-1);
 	*fd = open(filename, O_RDONLY);
@@ -50,8 +50,8 @@ static int	read_file_lines(t_app *app, int fd, int capacity)
 		if (i >= capacity)
 		{
 			capacity *= 2;
-			temp = ft_realloc(app->file_data.file_data,
-					sizeof(char *) * (capacity / 2), sizeof(char *) * capacity);
+			temp = ft_realloc(app->file_data.file_data, sizeof(char *)
+					* (capacity / 2 + 1), sizeof(char *) * (capacity + 1));
 			if (!temp)
 				return (close(fd), 1);
 			app->file_data.file_data = temp;
