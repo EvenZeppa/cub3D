@@ -52,7 +52,7 @@ char	**create_rectangular_grid(char **map, t_cols_rows cols_rows)
 		if (!grid[i] || (map[i][0] == '\n'))
 			return (free_grid(grid, i + 1), NULL);
 		ft_memset(grid[i], ' ', cols);
-		ft_memcpy(grid[i], map[i], ft_strlen(map[i]));
+		ft_memcpy(grid[i], map[i], ft_strlen(map[i]) - 1);
 		grid[i][cols] = '\0';
 		i++;
 	}
