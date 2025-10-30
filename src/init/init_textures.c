@@ -36,15 +36,17 @@ int	ft_str_ends_with(const char *str, const char *suffix)
  */
 static int	load_texture(t_app *app, t_image *tex, char *path)
 {
-	if (!path || !ft_str_ends_with(path, ".xpm"))
-		return (1);
+	if (!path)
+		exit_error(app, "Texture path is NULL");
+	if (!ft_str_ends_with(path, ".xpm"))
+		exit_error(app, "Invalid texture file format");
 	tex->img = mlx_xpm_file_to_image(app->mlx, path, &tex->width, &tex->height);
 	if (!tex->img)
-		return (1);
+		exit_error(app, "Failed to load texture image");
 	tex->addr = mlx_get_data_addr(tex->img,
 			&tex->bpp, &tex->size_line, &tex->endian);
 	if (!tex->addr)
-		return (1);
+		exit_error(app, "Failed to get texture data address");
 	return (0);
 }
 

@@ -37,39 +37,47 @@ int	check_rgb(t_rgb rgb)
  * @param rgb Pointeur vers la structure à remplir.
  * @return int 0 si succès, 1 si erreur.
  */
-static int	parse_rgb(char *line, t_rgb *rgb)
+static int	parse_rgb(t_app *app, char *line, t_rgb *rgb)
 {
 	char	**split;
 
-	if (!is_rgb_line_valid(line))
-		return (1);
-	split = ft_split(line, ',');
+	if (!is_rgb_line_valid(line + 2))
+	{
+		free(line);
+		exit_error(app, "Invalid RGB line format");
+	}
+	split = ft_split(line + 2, ',');
 	if (!split || !split[0] || !split[1] || !split[2])
 	{
 		free_split(split);
-		return (1);
+		free(line);
+		exit_error(app, "Missing RGB components");
 	}
 	rgb->red = ft_atoi(split[0]);
 	rgb->green = ft_atoi(split[1]);
 	rgb->blue = ft_atoi(split[2]);
 	free_split(split);
 	if (check_rgb(*rgb))
-		return (1);
+	{
+		free(line);
+		exit_error(app, "RGB values out of range");
+	}
 	return (0);
 }
 
-static int	handle_color_line(char *line, t_file_data *data, int *count)
+static int	handle_color_line(t_app *app, char *line,
+	t_file_data *data, int *count)
 {
 	if (ft_strnstr(line, "C ", 2))
 	{
-		if (parse_rgb(line + 2, &data->ceiling))
-			return (1);
+		if (parse_rgb(app, line, &data->ceiling))
+			exit_error(app, "Invalid ceiling color format");
 		(*count)++;
 	}
 	else if (ft_strnstr(line, "F ", 2))
 	{
-		if (parse_rgb(line + 2, &data->floor))
-			return (1);
+		if (parse_rgb(app, line, &data->floor))
+			exit_error(app, "Invalid floor color format");
 		(*count)++;
 	}
 	return (0);
@@ -89,11 +97,13 @@ int	parse_colors(t_app *app)
 	{
 		line = get_formatted_line(app->file_data.file_data[i]);
 		if (!line)
-			return (1);
-		if (handle_color_line(line, &app->file_data, &count))
+			exit_error(app, "Memory allocation failed");
+		if (handle_color_line(app, line, &app->file_data, &count))
 			error = 1;
 		free(line);
 		i++;
 	}
-	return (count != 2 || error);
+	if (count != 2)
+		exit_error(app, "Missing color definitions");
+	return (error);
 }

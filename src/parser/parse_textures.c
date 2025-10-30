@@ -33,7 +33,7 @@ int	parse_textures(t_app *app)
 	char	*line;
 
 	if (is_dup_textures(app->file_data.file_data, app->file_data.lines_count))
-		return (1);
+		exit_error(app, "Duplicate texture definitions");
 	i = 0;
 	while (i < find_map_start(app))
 	{

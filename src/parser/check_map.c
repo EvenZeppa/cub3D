@@ -108,31 +108,33 @@ static int	check_surrounding_cells(char **grid,
  * @param player_count Pointeur vers un compteur de joueurs trouvés.
  * @return 0 si la carte est valide, 1 en cas d’erreur.
  */
-static int	check_map_validity(char **grid,
-	t_cols_rows cols_rows, int *player_count)
+static int	check_map_validity(t_app *app, char **grid,
+t_cols_rows cr, int *player_count)
 {
 	int		i;
 	int		j;
 	char	c;
 
 	i = -1;
-	while (++i < cols_rows.rows)
+	while (++i < cr.rows)
 	{
 		j = -1;
-		while (++j < cols_rows.cols)
+		while (++j < cr.cols)
 		{
 			c = grid[i][j];
 			if (!is_valid_map_char(c) && c != '\n')
-				return (1);
+				return (free_grid(grid, cr.rows),
+					exit_error(app, "Invalid map character"), 1);
 			if (is_player_char(c))
 			{
 				(*player_count)++;
-				if (!check_surrounding_cells(grid, i, j, cols_rows))
-					return (1);
+				if (!check_surrounding_cells(grid, i, j, cr))
+					return (free_grid(grid, cr.rows),
+						exit_error(app, "Invalid player position"), 1);
 			}
-			else if (c == '0'
-				&& !check_surrounding_cells(grid, i, j, cols_rows))
-				return (1);
+			else if (c == '0' && !check_surrounding_cells(grid, i, j, cr))
+				return (free_grid(grid, cr.rows),
+					exit_error(app, "Invalid open space"), 1);
 		}
 	}
 	return (0);
@@ -150,17 +152,17 @@ int	check_map(t_app *app)
 	calculate_map_dimensions(map, &cols_rows);
 	grid = create_rectangular_grid(map, cols_rows);
 	if (!grid)
-		return (-1);
-	if (check_map_validity(grid, cols_rows, &player_count) != 0
-		|| check_spaces(grid, cols_rows) != 0)
+		exit_error(app, "Invalid map");
+	check_map_validity(app, grid, cols_rows, &player_count);
+	if (check_spaces(grid, cols_rows) != 0)
 	{
 		free_grid(grid, cols_rows.rows);
-		return (-1);
+		exit_error(app, "Invalid spaces in map");
 	}
 	if (player_count != 1)
 	{
 		free_grid(grid, cols_rows.rows);
-		return (-1);
+		exit_error(app, "Invalid player count");
 	}
 	free_grid(grid, cols_rows.rows);
 	return (0);
