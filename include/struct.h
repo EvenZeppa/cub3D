@@ -139,4 +139,11 @@ typedef struct s_app
 	int			mouse_initialized;
 }				t_app;
 
+typedef struct s_mapcheck
+{
+	char		**grid;
+	t_cols_rows	cr;
+	int			*player_count;
+}	t_mapcheck;
+
 #endif
