@@ -115,7 +115,6 @@ static int	check_map_validity(t_app *app, char **grid,
 	return (0);
 }
 
-
 int	check_map(t_app *app)
 {
 	t_cols_rows	cols_rows;
