@@ -1,28 +1,6 @@
 #include "cub3d.h"
 
 /**
- * @brief Libère la mémoire allouée pour une grille de carte.
- *
- * Parcourt chaque ligne du tableau et la libère avant de
- * libérer le tableau lui-même.
- *
- * @param grid Grille allouée dynamiquement.
- * @param rows Nombre de lignes à libérer.
- */
-void	free_grid(char **grid, int rows)
-{
-	int	i;
-
-	i = 0;
-	while (i < rows)
-	{
-		free(grid[i]);
-		i++;
-	}
-	free(grid);
-}
-
-/**
  * @brief Crée une grille rectangulaire à partir de la carte originale.
  *
  * Cette fonction prend une carte de taille variable (lignes de longueurs
@@ -95,50 +73,45 @@ static int	check_surrounding_cells(char **grid,
 	return (1);
 }
 
-/**
- * @brief Vérifie si la grille est valide selon les règles du jeu.
- *
- * Cette fonction vérifie les caractères autorisés, les positions valides
- * pour le joueur et les cellules ouvertes ('0'). Elle s'assure également
- * qu'il y a exactement un joueur et que toutes les cellules ouvertes ou
- * de départ sont bien entourées.
- *
- * @param grid Grille rectangulaire de la carte.
- * @param cols_rows Dimensions de la grille.
- * @param player_count Pointeur vers un compteur de joueurs trouvés.
- * @return 0 si la carte est valide, 1 en cas d’erreur.
- */
-static int	check_map_validity(t_app *app, char **grid,
-t_cols_rows cr, int *player_count)
+static int	validate_cell(t_app *app, char **grid, t_cols_rows cr,
+						int *player_count, int i, int j)
 {
-	int		i;
-	int		j;
 	char	c;
+
+	c = grid[i][j];
+	if (!is_valid_map_char(c) && c != '\n')
+		return (free_grid(grid, cr.rows),
+			exit_error(app, "Invalid map character"), 1);
+	if (is_player_char(c))
+	{
+		(*player_count)++;
+		if (!check_surrounding_cells(grid, i, j, cr))
+			return (free_grid(grid, cr.rows),
+				exit_error(app, "Invalid player position"), 1);
+	}
+	else if (c == '0' && !check_surrounding_cells(grid, i, j, cr))
+		return (free_grid(grid, cr.rows),
+			exit_error(app, "Invalid open space"), 1);
+	return (0);
+}
+
+static int	check_map_validity(t_app *app, char **grid,
+								t_cols_rows cr, int *player_count)
+{
+	int	i;
+	int	j;
 
 	i = -1;
 	while (++i < cr.rows)
 	{
 		j = -1;
 		while (++j < cr.cols)
-		{
-			c = grid[i][j];
-			if (!is_valid_map_char(c) && c != '\n')
-				return (free_grid(grid, cr.rows),
-					exit_error(app, "Invalid map character"), 1);
-			if (is_player_char(c))
-			{
-				(*player_count)++;
-				if (!check_surrounding_cells(grid, i, j, cr))
-					return (free_grid(grid, cr.rows),
-						exit_error(app, "Invalid player position"), 1);
-			}
-			else if (c == '0' && !check_surrounding_cells(grid, i, j, cr))
-				return (free_grid(grid, cr.rows),
-					exit_error(app, "Invalid open space"), 1);
-		}
+			if (validate_cell(app, grid, cr, player_count, i, j))
+				return (1);
 	}
 	return (0);
 }
+
 
 int	check_map(t_app *app)
 {

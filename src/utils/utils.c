@@ -47,3 +47,25 @@ void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 	dst = img->addr + (y * img->size_line + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
+
+/**
+ * @brief Libère la mémoire allouée pour une grille de carte.
+ *
+ * Parcourt chaque ligne du tableau et la libère avant de
+ * libérer le tableau lui-même.
+ *
+ * @param grid Grille allouée dynamiquement.
+ * @param rows Nombre de lignes à libérer.
+ */
+void	free_grid(char **grid, int rows)
+{
+	int	i;
+
+	i = 0;
+	while (i < rows)
+	{
+		free(grid[i]);
+		i++;
+	}
+	free(grid);
+}
