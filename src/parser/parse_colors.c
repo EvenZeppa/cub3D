@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbonnard <vbonnard@student.42perpignan.f>  +#+  +:+       +#+        */
+/*   By: vbonnard <vbonnard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:43:35 by vbonnard          #+#    #+#             */
-/*   Updated: 2025/10/30 16:43:35 by vbonnard         ###   ########.fr       */
+/*   Updated: 2025/10/31 14:21:57 by vbonnard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,9 @@ int	parse_colors(t_app *app)
 		free(line);
 		i++;
 	}
-	if (count != 2)
+	if (count < 2)
 		exit_error(app, "Missing color definitions");
+	else if (count > 2)
+		exit_error(app, "Too much color definitions");
 	return (error);
 }
