@@ -28,7 +28,7 @@ ifeq ($(UNAME_S), Linux)
 	MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 	CFLAGS   += -I/usr/include
 else ifeq ($(UNAME_S), Darwin)
-	MLX_DIR   = minilibx-mac-2
+	MLX_DIR   = minilibx_mms_20200219
 	MLX       = $(MLX_DIR)/libmlx.a
 	MLX_FLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -I /opt/X11/include/X11
 	CFLAGS   += -I/opt/homebrew/include
